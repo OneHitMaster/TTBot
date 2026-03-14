@@ -86,16 +86,16 @@ def _draw_text_frame(
     width: int,
     height: int,
     text: str,
-    font_size: int = 62,
-    margin: int = 90,
-    card_padding: int = 44,
-    card_radius: int = 32,
+    font_size: int = 68,
+    margin: int = 80,
+    card_padding: int = 0,
+    card_radius: int = 0,
 ) -> Image.Image:
-    """Zeichnet einen Satz in einer weichen Text-Karte – klar lesbar, modern (RGBA Overlay)."""
+    """Moderner Lauftext ohne Box: weißer Text mit dezentem Rand für Lesbarkeit auf Video."""
     img = Image.new("RGBA", (width, height), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
     font = _get_font(font_size)
-    max_w = width - 2 * margin - 2 * card_padding
+    max_w = width - 2 * margin
     words = text.split()
     lines = []
     line = []
@@ -108,45 +108,30 @@ def _draw_text_frame(
             line = [w]
     if line:
         lines.append(" ".join(line))
-    line_height = int(font_size * 1.38)
+    line_height = int(font_size * 1.45)
     total_h = len(lines) * line_height
     y0 = (height - total_h) // 2
 
-    # Bounding-Box des gesamten Textblocks
-    max_line_w = 0
-    for ln in lines:
-        bbox = draw.textbbox((0, 0), ln, font=font)
-        max_line_w = max(max_line_w, bbox[2] - bbox[0])
-    box_w = max_line_w + 2 * card_padding
-    box_h = total_h + 2 * card_padding
-    x1 = (width - box_w) // 2
-    y1 = y0 - card_padding
-    x2 = x1 + box_w
-    y2 = y1 + box_h
+    # Keine Box – nur Text mit Outline (Rand) für Lesbarkeit auf jedem Hintergrund
+    outline_offsets = [(-2, -2), (-2, 0), (-2, 2), (0, -2), (0, 2), (2, -2), (2, 0), (2, 2)]
+    outline_color = (0, 0, 0, 200)
+    text_color = (255, 255, 255, 255)
+    # Optional: leichter Schatten für Tiefe
+    shadow_offset = (3, 4)
+    shadow_color = (0, 0, 0, 140)
 
-    # Karte: dunkles Glas statt harter schwarzer Kasten (R,G,B,Alpha)
-    card_fill = (25, 30, 50, 220)
-    card_outline = (255, 255, 255, 45)
-    if hasattr(draw, "rounded_rectangle"):
-        draw.rounded_rectangle(
-            [x1, y1, x2, y2],
-            radius=card_radius,
-            fill=card_fill,
-            outline=card_outline,
-            width=1,
-        )
-    else:
-        draw.rectangle([x1, y1, x2, y2], fill=card_fill, outline=card_outline)
-
-    # Text: weicher Schatten + kräftiges Weiß
     for i, ln in enumerate(lines):
         bbox = draw.textbbox((0, 0), ln, font=font)
         tw = bbox[2] - bbox[0]
         x = (width - tw) // 2
         y = y0 + i * line_height
-        for dx, dy, alpha in [(3, 3, 120), (1, 1, 80)]:
-            draw.text((x + dx, y + dy), ln, font=font, fill=(0, 0, 0, alpha))
-        draw.text((x, y), ln, font=font, fill=(255, 255, 255, 255))
+        # Schatten
+        draw.text((x + shadow_offset[0], y + shadow_offset[1]), ln, font=font, fill=shadow_color)
+        # Outline
+        for dx, dy in outline_offsets:
+            draw.text((x + dx, y + dy), ln, font=font, fill=outline_color)
+        # Text
+        draw.text((x, y), ln, font=font, fill=text_color)
     return img
 
 
@@ -230,7 +215,7 @@ def _timing_clips_from_frames(
     bg_img = _make_gradient_image(width, height, random.choice(gradient_colors))
     clips_info = []
     for sent, start, duration in timings:
-        frame = _draw_text_frame(width, height, sent, font_size=60, margin=72, card_padding=40, card_radius=28)
+        frame = _draw_text_frame(width, height, sent, font_size=64, margin=72)
         clips_info.append((start, duration, frame))
     return bg_img, clips_info
 
@@ -319,16 +304,26 @@ class VideoCreator:
                 except OSError:
                     pass
             raise RuntimeError(f"Hintergrund-Video konnte nicht geladen werden: {e}") from e
+        if getattr(bg_clip, "duration", 0) <= 0:
+            bg_clip.close()
+            if temp_video_path and os.path.exists(temp_video_path):
+                try:
+                    os.remove(temp_video_path)
+                except OSError:
+                    pass
+            raise RuntimeError("Hintergrund-Video hat keine gültige Dauer (Datei defekt?).")
 
         dark = _make_dark_overlay(self.width, self.height, total_duration, opacity=0.42)
         layers = [bg_clip, dark]
-        print("Hintergrund: Video-Clip wird verwendet.")
+        quelle = "Pexels" if temp_video_path else "lokal"
+        print(f"Hintergrund: Video-Clip wird verwendet ({quelle}).")
+        print(f"  → Dieses Video öffnen: {out_name}")
 
         # Text-Frames (synced mit TTS)
         clips_info = []
         for sent, start, duration in timings:
             frame = _draw_text_frame(
-                self.width, self.height, sent, font_size=60, margin=72, card_padding=40, card_radius=28
+                self.width, self.height, sent, font_size=64, margin=72
             )
             clips_info.append((start, duration, frame))
 

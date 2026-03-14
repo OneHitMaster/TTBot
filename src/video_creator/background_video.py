@@ -78,15 +78,24 @@ def _search_and_download(api_key: str, q: str, orientation: Optional[str], per_p
             return None
         tmp = tempfile.NamedTemporaryFile(suffix=".mp4", delete=False)
         tmp.close()
-        if _download_url(download_url, tmp.name):
-            return tmp.name
-        if os.environ.get("TTBOT_DEBUG"):
-            print("[Pexels] Download der Video-URL fehlgeschlagen.")
+        if not _download_url(download_url, tmp.name):
+            if os.environ.get("TTBOT_DEBUG"):
+                print("[Pexels] Download der Video-URL fehlgeschlagen.")
+            try:
+                os.remove(tmp.name)
+            except OSError:
+                pass
+            return None
+        # Nur gültige Dateien zurückgeben (nicht leer)
         try:
-            os.remove(tmp.name)
+            if os.path.getsize(tmp.name) < 1000:
+                if os.environ.get("TTBOT_DEBUG"):
+                    print("[Pexels] Heruntergeladene Datei zu klein oder leer.")
+                os.remove(tmp.name)
+                return None
         except OSError:
-            pass
-        return None
+            return None
+        return tmp.name
     except Exception as e:
         if os.environ.get("TTBOT_DEBUG"):
             print(f"[Pexels] Verarbeitung fehlgeschlagen: {e}")

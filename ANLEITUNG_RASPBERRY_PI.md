@@ -165,7 +165,7 @@ http://ttbot-pi.local:8080
 
 (Ersetze `ttbot-pi` durch den Hostnamen deines Pi, falls anders – steht z.B. in den Pi-Einstellungen.)
 
-Es erscheint eine Liste der Video-Dateien. Auf den Dateinamen tippen → Video wird geladen/gespeichert. In der TikTok-App dann „Video hochladen“ und die heruntergeladene Datei wählen.
+Es erscheint eine Liste der Video-Dateien. **Immer die neueste Datei öffnen** (höchster Zeitstempel im Namen, z. B. `video_331_20260314_171416.mp4`) – nur diese enthält den zuletzt erstellten Video-Hintergrund. Auf den Dateinamen tippen → Video wird geladen/gespeichert. In der TikTok-App dann „Video hochladen“ und die heruntergeladene Datei wählen.
 
 Zum Beenden des Servers auf dem Pi: `Strg+C`.
 
