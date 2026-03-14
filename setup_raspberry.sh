@@ -29,11 +29,12 @@ pip install --upgrade pip
 pip install -r requirements.txt
 
 echo ""
-echo "Setup abgeschlossen. Nächste Schritte:"
-echo "  1. .env anlegen (siehe .env.example)"
-echo "  2. source venv/bin/activate"
-echo "  3. python main.py --auth   # OAuth, dann Token in .env"
-echo "  4. python main.py          # Bot starten"
+echo "Setup abgeschlossen. Nächste Schritte (einfacher Weg):"
+echo "  1. source venv/bin/activate"
+echo "  2. python main.py --only-video    # Erstellt Video in output/"
+echo "  3. Auf dem Handy: Browser → http://ttbot-pi.local:8080 (vorher: cd output && python3 -m http.server 8080)"
+echo "  4. Video in TikTok-App hochladen"
 echo ""
 echo "Hinweis: Video-Encodes auf dem Pi können einige Minuten dauern."
-echo "Optional in .env setzen: VIDEO_WIDTH=720 VIDEO_HEIGHT=1280 für schnellere Encodes."
+echo "Optional .env mit VIDEO_WIDTH=720 VIDEO_HEIGHT=1280 für schnellere Encodes."
+echo "Vollautomatischer Upload (TikTok-API) siehe ANLEITUNG_RASPBERRY_PI.md."

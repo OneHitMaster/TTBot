@@ -13,8 +13,9 @@ Zwei Wege:
 2. Projekt auf den Pi kopieren
 3. Abhängigkeiten installieren (Setup-Skript)
 4. Bot starten → Videos landen in `output/`
-5. Videos in der TikTok-App hochladen (von Hand)
-6. Optional: Bot per Cron täglich laufen lassen
+5. Videos vom Pi aufs Handy holen (Webserver, Samba oder Cloud)
+6. In der TikTok-App hochladen
+7. Optional: Bot per Cron täglich laufen lassen
 
 **Du brauchst dafür:** keinen TikTok-Developer-Account, keine .env mit Keys, keine Redirect-URI.
 
@@ -143,18 +144,76 @@ Speichern: `Strg+O`, Enter, `Strg+X`.
 
 ---
 
-## Schritt 5: Videos in der TikTok-App hochladen
+## Schritt 5: Videos vom Pi aufs Handy holen
 
-1. Die fertigen Videos liegen in **`~/TTBot/output/`** (z.B. `video_1.mp4`, `video_2.mp4`).
-2. Diese Dateien auf dein Handy bringen (z.B. per Cloud, USB, oder Ordner `output` per SMB im Netzwerk freigeben).
-3. In der **TikTok-App** auf „+” tippen → Video hochladen → Datei auswählen.
-4. Caption und Hashtags eintragen (die Ideen aus `ideas.json` enthalten Vorschläge; sie stehen auch in der Ausgabe des Bots).
+Die Videos liegen auf dem Pi in **`~/TTBot/output/`**. So kommst du mit dem Handy dran (Handy und Pi im **gleichen WLAN**):
+
+### Option A: Mini-Webserver (am wenigsten Aufwand)
+
+**Auf dem Pi** (einmal starten, solange du Videos laden willst):
+
+```bash
+cd ~/TTBot/output
+python3 -m http.server 8080
+```
+
+**Auf dem Handy:** Browser öffnen und eingeben:
+
+```
+http://ttbot-pi.local:8080
+```
+
+(Ersetze `ttbot-pi` durch den Hostnamen deines Pi, falls anders – steht z.B. in den Pi-Einstellungen.)
+
+Es erscheint eine Liste der Video-Dateien. Auf den Dateinamen tippen → Video wird geladen/gespeichert. In der TikTok-App dann „Video hochladen“ und die heruntergeladene Datei wählen.
+
+Zum Beenden des Servers auf dem Pi: `Strg+C`.
+
+### Option B: Ordner per Samba freigeben
+
+**Auf dem Pi:** Samba installieren und einen freigegebenen Ordner einrichten:
+
+```bash
+sudo apt-get install -y samba
+sudo nano /etc/samba/smb.conf
+```
+
+Am **Ende** der Datei einfügen (Benutzername anpassen):
+
+```ini
+[TTBot-Videos]
+path = /home/pi/TTBot/output
+read only = yes
+guest ok = yes
+```
+
+Speichern (`Strg+O`, Enter, `Strg+X`). Samba neu starten:
+
+```bash
+sudo systemctl restart smb
+```
+
+**Auf dem Handy (Android):** Dateien-App öffnen → Menü → „Netzwerkspeicher“ / „Server“ / „SMB“ → Server: `ttbot-pi.local` (oder die IP des Pi), Gast-Zugang, keine Anmeldung. Ordner **TTBot-Videos** öffnen und die MP4-Dateien wählen (öffnen/speichern, dann in TikTok hochladen).
+
+**Auf dem iPhone:** Dateien-App → „…“ → „Mit Server verbinden“ → `smb://ttbot-pi.local` → Gast → Ordner **TTBot-Videos** auswählen.
+
+### Option C: Cloud (z.B. Google Drive)
+
+Videos vom Pi in einen Cloud-Ordner kopieren (z.B. per [rclone](https://rclone.org) mit Google Drive), dann auf dem Handy die Cloud-App öffnen und die Datei herunterladen. Etwas mehr Einrichtung, dafür von überall nutzbar.
+
+---
+
+## Schritt 6: In der TikTok-App hochladen
+
+1. Video vom Pi aufs Handy geholt (Option A, B oder C).
+2. **TikTok-App** öffnen → „+” → „Hochladen“ → die heruntergeladene/geöffnete Video-Datei auswählen.
+3. Caption und Hashtags eintragen (Vorschläge stehen in `ideas.json` bzw. in der Bot-Ausgabe).
 
 Damit erstellst du die Videos automatisch auf dem Pi und lädst sie nur noch in der App hoch – ohne TikTok-API und OAuth.
 
 ---
 
-## Schritt 6: Bot automatisch laufen lassen (Cron, optional)
+## Schritt 7: Bot automatisch laufen lassen (Cron, optional)
 
 Damit der Bot z.B. **täglich um 10:00 Uhr** ein neues Video erstellt:
 

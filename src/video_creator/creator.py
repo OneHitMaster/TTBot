@@ -6,7 +6,12 @@ from typing import Optional
 
 from PIL import Image, ImageDraw, ImageFont
 from gtts import gTTS
-from moviepy.editor import ImageClip, AudioFileClip, ColorClip
+try:
+    from moviepy import ImageClip, AudioFileClip, ColorClip
+    _MOVIEPY_V2 = True
+except ImportError:
+    from moviepy.editor import ImageClip, AudioFileClip, ColorClip
+    _MOVIEPY_V2 = False
 
 from src.ideas import Idea
 
@@ -109,10 +114,11 @@ class VideoCreator:
         # 2. Hintergrundbild mit Titel (PIL)
         frame_path = self.output_dir / f"frame_{idea_id}.png"
         _draw_title_on_image(self.width, self.height, idea.title, str(frame_path))
-        bg = ImageClip(str(frame_path)).set_duration(duration)
+        bg = ImageClip(str(frame_path))
+        bg = bg.with_duration(duration) if _MOVIEPY_V2 else bg.set_duration(duration)
 
         # 3. Audio anhängen
-        video = bg.set_audio(audio)
+        video = bg.with_audio(audio) if _MOVIEPY_V2 else bg.set_audio(audio)
 
         # 4. Schreiben (MP4, H.264 für TikTok)
         video.write_videofile(
