@@ -23,8 +23,12 @@ TIKTOK_REDIRECT_URI = os.getenv("TIKTOK_REDIRECT_URI", "")
 TIKTOK_ACCESS_TOKEN = os.getenv("TIKTOK_ACCESS_TOKEN", "")
 TIKTOK_REFRESH_TOKEN = os.getenv("TIKTOK_REFRESH_TOKEN", "")
 
-# Optional: Pexels für Bilder
+# Pexels (für Hintergrund-Videos und optional Bilder)
 PEXELS_API_KEY = os.getenv("PEXELS_API_KEY", "")
+# Suchbegriff für Hintergrund-Videos (z. B. "nature", "ocean", "forest")
+VIDEO_BACKGROUND_QUERY = os.getenv("VIDEO_BACKGROUND_QUERY", "nature landscape")
+# Optional: lokaler Ordner mit MP4/Clips als Hintergrund (z. B. Pfad zu output/backgrounds)
+BACKGROUND_VIDEOS_DIR = (os.getenv("BACKGROUND_VIDEOS_DIR") or "").strip()
 
 # TTS: Edge-Stimme (z. B. de-DE-KatjaNeural, de-DE-ConradNeural)
 TTS_VOICE = os.getenv("TTS_VOICE", "de-DE-KatjaNeural")

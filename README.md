@@ -5,7 +5,7 @@ Ein Bot, der **Ideen sammelt**, daraus **Videos erstellt** und sie automatisch b
 ## Ablauf
 
 1. **Ideen** kommen automatisch aus **Google Trends** (was gerade in deinem Land trendet) – du musst nichts in `ideas.json` eintragen. Optional kannst du weiterhin eigene Ideen in `ideas.json` pflegen (werden genutzt, wenn keine Trends da sind).
-2. **Video-Erstellung**: **Edge TTS** (Microsoft Neural-Stimmen), **synchroner Lauftext**, **Gradient-Hintergrund** mit weicher Vignette. Der Text erscheint in einer **abgerundeten Text-Karte** – klar lesbar und ansprechend für Zuschauer. Vertikal 1080×1920 (TikTok).
+2. **Video-Erstellung**: **Edge TTS**, **synchroner Lauftext**, **Hintergrund**: optional **Stock-Videos** (z. B. Natur, Meer, Wald) von Pexels oder aus einem eigenen Ordner – darüber ein dunkler Overlay und die **Text-Karte**. Ohne Pexels/Ordner: schöner **Gradient-Hintergrund**. Vertikal 1080×1920 (TikTok).
 3. **Upload** (optional) über die TikTok Content Posting API oder manuell in der App.
 
 **Trend-Modus:** Standardmäßig nutzt der Bot `IDEA_SOURCE=trends_then_file`: Zuerst werden aktuelle Suchtrends (Google Trends) geholt und daraus Video-Ideen erzeugt; nur wenn keine Trends verfügbar sind, wird `ideas.json` genutzt. In der `.env` kannst du auf `IDEA_SOURCE=file` stellen, wenn du nur eigene Ideen nutzen willst.
@@ -131,7 +131,8 @@ Beispiel:
 
 - **TikTok API**: Pro Access Token gelten Limits (z. B. 6 Upload-Requests pro Minute). Der Bot nutzt die Inbox-Variante; du bestätigst den Post in der TikTok-App.
 - **FFmpeg**: Unter Windows FFmpeg installieren und ins PATH legen ([ffmpeg.org](https://ffmpeg.org/)).
-- **Stimme**: In der `.env` kannst du `TTS_VOICE` setzen, z. B. `de-DE-KatjaNeural` (weiblich), `de-DE-ConradNeural` (männlich), `de-DE-AmalaNeural`, `de-DE-KillianNeural`. Liste mit `edge-tts --list-voices` anzeigen.
+- **Stimme**: In der `.env` kannst du `TTS_VOICE` setzen, z. B. `de-DE-KatjaNeural` (weiblich), `de-DE-ConradNeural` (männlich). Liste mit `edge-tts --list-voices`.
+- **Hintergrund-Videos**: Mit **PEXELS_API_KEY** (kostenlos auf pexels.com/api) sucht der Bot passende Clips (z. B. `VIDEO_BACKGROUND_QUERY=nature`). Alternativ: Ordner mit eigenen MP4-Dateien unter `BACKGROUND_VIDEOS_DIR` (z. B. `output/backgrounds`). Ohne Key/Ordner wird ein Gradient genutzt.
 
 ## Projektstruktur
 

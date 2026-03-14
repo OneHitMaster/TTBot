@@ -80,12 +80,15 @@ def main():
 
     print(f"Idee: {idea.title}")
 
-    # Video erstellen (Edge TTS + synchroner Lauftext + Gradient)
+    # Video erstellen (Edge TTS + Lauftext + Video- oder Gradient-Hintergrund)
     creator = VideoCreator(
         config.OUTPUT_DIR,
         width=config.VIDEO_WIDTH,
         height=config.VIDEO_HEIGHT,
         voice=getattr(config, "TTS_VOICE", "de-DE-KatjaNeural"),
+        pexels_api_key=getattr(config, "PEXELS_API_KEY", ""),
+        background_query=getattr(config, "VIDEO_BACKGROUND_QUERY", "nature landscape"),
+        background_videos_dir=config.BACKGROUND_VIDEOS_DIR or None,
     )
     video_path = creator.create(idea)
     print(f"Video erstellt: {video_path}")
