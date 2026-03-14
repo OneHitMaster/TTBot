@@ -21,8 +21,9 @@ def clean_text_for_tts(text: str) -> str:
         return text
     # 1. 2. 3. oder 1) 2) 3)
     text = re.sub(r"\d+[.)]\s+", "", text)
-    # Einzelne Zahl am Satzanfang (z. B. "3 Kleine" ohne Punkt)
-    text = re.sub(r"(?<=^|[.!?]\s)\d+\s+", "", text)
+    # Einzelne Zahl am Satzanfang (z. B. "3 Kleine" ohne Punkt) – feste Lookbehinds für re
+    text = re.sub(r"^\d+\s+", "", text)
+    text = re.sub(r"(?<=[.!?])\s*\d+\s+", " ", text)
     # Erstens, Zweitens, Drittens, ... (mit optionalem Komma/Punkt)
     text = re.sub(
         r"(?i)\b(Erstens|Zweitens|Drittens|Viertens|Fünftens|Sechstens|Siebtens|Achtens|Neuntens|Zehntens)\s*[,.]?\s*",
