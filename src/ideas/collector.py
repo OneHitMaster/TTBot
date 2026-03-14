@@ -1,5 +1,6 @@
 """Ideensammlung: Lädt Ideen aus Dateien oder kann später um APIs erweitert werden."""
 import json
+import random
 from pathlib import Path
 from dataclasses import dataclass
 from typing import List, Optional
@@ -73,18 +74,21 @@ class IdeaCollector:
         ]
 
     def get_next_idea(self) -> Optional[Idea]:
-        """Gibt die nächste noch nicht verwendete Idee zurück (Trends und/oder Datei)."""
+        """Gibt eine zufällige, noch nicht verwendete Idee zurück (Trends und/oder Datei)."""
+        candidates: List[Idea] = []
         if self.source in ("trends", "trends_then_file"):
-            trend_ideas = self._get_trend_ideas()
-            for idea in trend_ideas:
+            for idea in self._get_trend_ideas():
                 if idea.id not in self._used_ids:
-                    return idea
-            if self.source == "trends":
+                    candidates.append(idea)
+            if self.source == "trends" and not candidates:
                 return None
-        for idea in self.load_ideas():
-            if idea.id not in self._used_ids:
-                return idea
-        return None
+        if not candidates:
+            for idea in self.load_ideas():
+                if idea.id not in self._used_ids:
+                    candidates.append(idea)
+        if not candidates:
+            return None
+        return random.choice(candidates)
 
     def mark_used(self, idea: Idea) -> None:
         """Markiert eine Idee als verwendet (wird in dieser Session nicht erneut gewählt)."""

@@ -304,7 +304,9 @@ class VideoCreator:
                 layers.append(dark)
                 if bg_video_path.startswith(tempfile.gettempdir()):
                     temp_video_path = bg_video_path
-            except Exception:
+                print("Hintergrund: Pexels-/Video-Clip wird verwendet.")
+            except Exception as e:
+                print(f"Hintergrund: Video fehlgeschlagen ({e}), verwende Gradient.")
                 bg_video_path = None
                 if layers:
                     for c in layers:
@@ -312,6 +314,8 @@ class VideoCreator:
                     layers = []
 
         if not layers:
+            if self.pexels_api_key or (self.background_videos_dir and self.background_videos_dir.is_dir()):
+                print("Hintergrund: Kein Video geladen (API/Download?), verwende Gradient.")
             bg_img, clips_info = _timing_clips_from_frames(
                 self.width, self.height, timings, total_duration, _GRADIENTS
             )
