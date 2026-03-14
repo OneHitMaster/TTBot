@@ -1,0 +1,20 @@
+# TTBot: Übersichtsseite (Beschreibung + Hashtags) dauerhaft unter :8080
+# Install: sudo cp ttbot-serve.service /etc/systemd/system/
+#         sudo systemctl daemon-reload
+#         sudo systemctl enable --now ttbot-serve
+# Dann: http://ttbot-pi.local:8080/ ist immer erreichbar (nach Pi-Neustart)
+
+[Unit]
+Description=TTBot Video-Übersichtsseite (Port 8080)
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/TTBot
+ExecStart=/home/pi/TTBot/venv/bin/python /home/pi/TTBot/serve.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

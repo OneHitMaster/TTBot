@@ -1,5 +1,7 @@
 """Erstellt TikTok-Videos: gute KI-Stimme (Edge TTS), synchroner Lauftext, Video- oder Gradient-Hintergrund."""
+import json
 import os
+import re
 import tempfile
 from datetime import datetime
 from pathlib import Path
@@ -43,6 +45,19 @@ _FONT_PATHS = [
     "/usr/share/fonts/truetype/freefont/FreeSansBold.otf",
     "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
 ]
+
+
+def _slug_from_title(title: str, max_len: int = 50) -> str:
+    """Erzeugt einen datei-sicheren, erkennbaren Namen aus dem Titel."""
+    if not title or not title.strip():
+        return ""
+    s = title.strip()
+    for old, new in [("ä", "ae"), ("ö", "oe"), ("ü", "ue"), ("ß", "ss"),
+                     ("Ä", "Ae"), ("Ö", "Oe"), ("Ü", "Ue")]:
+        s = s.replace(old, new)
+    s = re.sub(r"[^\w\s-]", "", s)
+    s = re.sub(r"[-\s]+", "_", s).strip("_")
+    return s[:max_len] if s else ""
 
 
 def _get_font(size: int = 72):
@@ -273,11 +288,12 @@ class VideoCreator:
         temp_video_path = bg_video_path if bg_video_path.startswith(tempfile.gettempdir()) else None
 
         idea_id = idea.id.replace("/", "_").replace(" ", "_")[:30]
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         if output_filename:
             out_name = output_filename
         else:
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            out_name = f"video_{idea_id}_{timestamp}.mp4"
+            slug = _slug_from_title(idea.title) or idea_id
+            out_name = f"{slug}_{timestamp}.mp4"
         out_path = self.output_dir / out_name
         audio_path = self.output_dir / f"audio_{idea_id}.mp3"
         full_text = (idea.title.strip() + ". " + idea.text.strip()) if idea.title else idea.text
@@ -356,6 +372,19 @@ class VideoCreator:
             remove_temp=True,
             logger=None,
         )
+
+        # Metadaten für die Übersichtsseite (:8080): Titel, Beschreibung, Hashtags
+        meta_path = out_path.with_suffix(".json")
+        try:
+            with open(meta_path, "w", encoding="utf-8") as f:
+                json.dump({
+                    "title": idea.title,
+                    "text": idea.text,
+                    "hashtags": idea.hashtags,
+                    "caption": idea.caption(),
+                }, f, ensure_ascii=False, indent=2)
+        except OSError:
+            pass
 
         audio.close()
         video.close()

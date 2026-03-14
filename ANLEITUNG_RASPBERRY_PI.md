@@ -148,14 +148,16 @@ Speichern: `Strg+O`, Enter, `Strg+X`.
 
 Die Videos liegen auf dem Pi in **`~/TTBot/output/`**. So kommst du mit dem Handy dran (Handy und Pi im **gleichen WLAN**):
 
-### Option A: Mini-Webserver (am wenigsten Aufwand)
+### Option A: Übersichtsseite mit Beschreibung und Hashtags (empfohlen)
 
 **Auf dem Pi** (einmal starten, solange du Videos laden willst):
 
 ```bash
-cd ~/TTBot/output
-python3 -m http.server 8080
+cd ~/TTBot
+python3 serve.py
 ```
+
+(Alternativ mit venv: `./venv/bin/python serve.py`)
 
 **Auf dem Handy:** Browser öffnen und eingeben:
 
@@ -163,11 +165,24 @@ python3 -m http.server 8080
 http://ttbot-pi.local:8080
 ```
 
-(Ersetze `ttbot-pi` durch den Hostnamen deines Pi, falls anders – steht z.B. in den Pi-Einstellungen.)
+(Ersetze `ttbot-pi` durch den Hostnamen deines Pi, falls anders.)
 
-Es erscheint eine Liste der Video-Dateien. **Immer die neueste Datei öffnen** (höchster Zeitstempel im Namen, z. B. `video_331_20260314_171416.mp4`) – nur diese enthält den zuletzt erstellten Video-Hintergrund. Auf den Dateinamen tippen → Video wird geladen/gespeichert. In der TikTok-App dann „Video hochladen“ und die heruntergeladene Datei wählen.
+Es erscheint eine **Übersicht** mit erkennbaren Videonamen (vom Titel der Idee), Beschreibungstext und Hashtags. Pro Video: „Caption kopieren“ bzw. „Hashtags kopieren“ – dann in der TikTok-App beim Hochladen einfügen. Auf den Video-Link tippen → Datei laden → in der App hochladen.
 
-Zum Beenden des Servers auf dem Pi: `Strg+C`.
+Zum Beenden: `Strg+C`.
+
+**Hinweis:** Die Videodateien heißen jetzt z. B. `Was_dir_niemand_ueber_Gewohnheiten_erzaehlt_20260314_171416.mp4` (erkennbar am Titel). Zu jedem Video liegt eine `.json` mit Titel, Text und Hashtags – die Übersichtsseite zeigt sie dir zum Kopieren. Damit die Seite **dauerhaft** erreichbar ist, siehe Schritt 7a.
+
+### Option A2: Nur Dateiliste (ohne Übersichtsseite)
+
+Falls du nur die Roh-Liste der Dateien brauchst:
+
+```bash
+cd ~/TTBot/output
+python3 -m http.server 8080
+```
+
+Dann erscheint die klassische Dateiliste; die Übersicht mit Caption/Hashtags gibt es hier nicht.
 
 ### Option B: Ordner per Samba freigeben
 
@@ -213,27 +228,50 @@ Damit erstellst du die Videos automatisch auf dem Pi und lädst sie nur noch in 
 
 ---
 
-## Schritt 7: Bot automatisch laufen lassen (Cron, optional)
+## Schritt 7: Alles automatisch im Hintergrund
 
-Damit der Bot z.B. **täglich um 10:00 Uhr** ein neues Video erstellt:
+**Ohne TikTok-API:** Der Bot erstellt nur die Videos. Du holst sie dir per Übersichtsseite (Schritt 5) aufs Handy und lädst sie in der TikTok-App hoch – keine Developer-App, keine Redirect-URI, kein OAuth.
+
+### 7a) Webseite dauerhaft online
+
+Damit die Übersicht mit Beschreibung und Hashtags **immer** erreichbar ist (ohne manuelles Starten von `serve.py`):
 
 ```bash
+sudo cp /home/pi/TTBot/ttbot-serve.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now ttbot-serve
+```
+
+Status prüfen: `sudo systemctl status ttbot-serve`. Unter `http://ttbot-pi.local:8080/` (oder IP des Pi) ist die Seite dann dauerhaft erreichbar.
+
+### 7b) Bot: z.B. 5 Videos pro Tag (Cron)
+
+Damit der Bot **mehrmals täglich** ein Video erstellt (z.B. 5× am Tag), Cron einrichten:
+
+```bash
+chmod +x /home/pi/TTBot/run_bot.sh
 crontab -e
 ```
 
-Falls gefragt, einen Editor wählen (z.B. nano). Am Ende der Datei eintragen (Pfad anpassen, wenn dein Benutzer nicht `pi` ist oder TTBot woanders liegt):
+Im Editor (z.B. nano) am Ende eintragen (Pfad anpassen, wenn Benutzer nicht `pi` oder TTBot woanders liegt):
+
+**5 Videos pro Tag** (z.B. 8:00, 11:00, 14:00, 17:00, 20:00):
 
 ```cron
-0 10 * * * cd /home/pi/TTBot && /home/pi/TTBot/venv/bin/python main.py --only-video >> /home/pi/TTBot/cron.log 2>&1
+0 8 * * * /home/pi/TTBot/run_bot.sh
+0 11 * * * /home/pi/TTBot/run_bot.sh
+0 14 * * * /home/pi/TTBot/run_bot.sh
+0 17 * * * /home/pi/TTBot/run_bot.sh
+0 20 * * * /home/pi/TTBot/run_bot.sh
 ```
 
-Speichern und beenden. Ab dann erstellt der Bot jeden Tag um 10:00 Uhr ein Video in `~/TTBot/output/`. Logs: `~/TTBot/cron.log`.
+Speichern und beenden. Der Bot läuft dann automatisch zu diesen Zeiten, erstellt je ein Video in `~/TTBot/output/` und schreibt Logs nach `~/TTBot/cron.log`. Die Übersichtsseite unter :8080 zeigt alle Videos mit Caption und Hashtags zum Kopieren.
 
-**Cron-Zeiten anpassen:**
+**Andere Verteilung:**
 
-- Täglich 10:00: `0 10 * * *`
-- Alle 12 Stunden: `0 8,20 * * *`
-- Nur Mo–Fr 9:00: `0 9 * * 1-5`
+- 3× am Tag (8:00, 14:00, 20:00): drei Zeilen mit `0 8`, `0 14`, `0 20`
+- 1× am Tag (10:00): nur `0 10 * * * /home/pi/TTBot/run_bot.sh`
+- Nur Mo–Fr: z.B. `0 9 * * 1-5 /home/pi/TTBot/run_bot.sh`
 
 ---
 
@@ -243,12 +281,14 @@ Speichern und beenden. Ab dann erstellt der Bot jeden Tag um 10:00 Uhr ein Video
 - [ ] TTBot-Projekt auf dem Pi (git clone oder kopiert)
 - [ ] `./setup_raspberry.sh` erfolgreich ausgeführt
 - [ ] `python main.py --only-video` läuft, Videos erscheinen in `output/`
-- [ ] Videos in der TikTok-App hochgeladen
-- [ ] Optional: Cron für tägliche Video-Erstellung eingerichtet
+- [ ] Optional: Webserver dauerhaft (Schritt 7a: systemd) + Cron für z.B. 5 Videos/Tag (Schritt 7b)
+- [ ] Videos in der TikTok-App hochgeladen (Übersicht unter :8080)
 
 ---
 
 ## Vollautomatisch: Upload per TikTok-API (optional)
+
+**Nur nötig, wenn** die Videos wirklich ohne Handy in die TikTok-Inbox sollen. Ansonsten reicht der einfache Weg: Cron + Script (Schritt 7) + Videos per Webserver/Samba holen und in der App hochladen – ohne Developer-App und ohne Redirect-URI.
 
 Wenn der Bot die Videos **direkt bei TikTok hochladen** soll (ohne manuellen Upload in der App), brauchst du eine TikTok-Developer-App und einmal OAuth. Das ist aufwendiger (Redirect-URI, ggf. ngrok).
 
