@@ -65,17 +65,28 @@ def main():
             run_auth()
         return
 
-    # Idee holen
-    collector = IdeaCollector(config.IDEAS_FILE)
+    # Idee holen (aus Trends und/oder ideas.json, siehe IDEA_SOURCE in .env)
+    collector = IdeaCollector(
+        ideas_path=config.IDEAS_FILE,
+        source=config.IDEA_SOURCE,
+        base_dir=config.BASE_DIR,
+        trends_country=config.TRENDS_COUNTRY,
+        trends_cache_hours=config.TRENDS_CACHE_HOURS,
+    )
     idea = collector.get_next_idea()
     if not idea:
-        print("Keine weiteren Ideen in ideas.json. Bitte neue Ideen hinzufügen.")
+        print("Keine Ideen mehr (Trends leer oder abgelaufen, ideas.json leer?). Bitte IDEA_SOURCE prüfen oder ideas.json befüllen.")
         return
 
     print(f"Idee: {idea.title}")
 
-    # Video erstellen
-    creator = VideoCreator(config.OUTPUT_DIR, width=config.VIDEO_WIDTH, height=config.VIDEO_HEIGHT)
+    # Video erstellen (Edge TTS + synchroner Lauftext + Gradient)
+    creator = VideoCreator(
+        config.OUTPUT_DIR,
+        width=config.VIDEO_WIDTH,
+        height=config.VIDEO_HEIGHT,
+        voice=getattr(config, "TTS_VOICE", "de-DE-KatjaNeural"),
+    )
     video_path = creator.create(idea)
     print(f"Video erstellt: {video_path}")
 

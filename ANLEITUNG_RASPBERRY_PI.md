@@ -17,7 +17,7 @@ Zwei Wege:
 6. In der TikTok-App hochladen
 7. Optional: Bot per Cron täglich laufen lassen
 
-**Du brauchst dafür:** keinen TikTok-Developer-Account, keine .env mit Keys, keine Redirect-URI.
+**Du brauchst dafür:** keinen TikTok-Developer-Account, keine .env mit Keys, keine Redirect-URI. Ideen kommen automatisch aus **Google Trends** (Standard: `IDEA_SOURCE=trends_then_file`) – du musst nichts in `ideas.json` eintragen.
 
 ---
 

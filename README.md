@@ -4,9 +4,11 @@ Ein Bot, der **Ideen sammelt**, daraus **Videos erstellt** und sie automatisch b
 
 ## Ablauf
 
-1. **Ideen** werden aus `ideas.json` gelesen (Titel, Text, Hashtags).
-2. **Video-Erstellung**: Aus dem Text wird per Text-to-Speech (gTTS) Audio erzeugt, dazu ein vertikales Video mit Titel-Overlay (1080×1920, TikTok-Format).
-3. **Upload** über die offizielle TikTok Content Posting API (OAuth 2.0). Das Video landet in deiner TikTok-Inbox; du bekommst eine Benachrichtigung und kannst es in der App finalisieren und posten.
+1. **Ideen** kommen automatisch aus **Google Trends** (was gerade in deinem Land trendet) – du musst nichts in `ideas.json` eintragen. Optional kannst du weiterhin eigene Ideen in `ideas.json` pflegen (werden genutzt, wenn keine Trends da sind).
+2. **Video-Erstellung**: **Edge TTS** (Microsoft Neural-Stimmen), **synchroner Lauftext**, **Gradient-Hintergrund** mit weicher Vignette. Der Text erscheint in einer **abgerundeten Text-Karte** – klar lesbar und ansprechend für Zuschauer. Vertikal 1080×1920 (TikTok).
+3. **Upload** (optional) über die TikTok Content Posting API oder manuell in der App.
+
+**Trend-Modus:** Standardmäßig nutzt der Bot `IDEA_SOURCE=trends_then_file`: Zuerst werden aktuelle Suchtrends (Google Trends) geholt und daraus Video-Ideen erzeugt; nur wenn keine Trends verfügbar sind, wird `ideas.json` genutzt. In der `.env` kannst du auf `IDEA_SOURCE=file` stellen, wenn du nur eigene Ideen nutzen willst.
 
 ## Voraussetzungen
 
@@ -102,9 +104,12 @@ Redirect-URI muss in der TikTok Developer Console exakt eingetragen sein (HTTPS,
 
 Erstellte Videos liegen im Ordner `output/`.
 
-## Ideen anpassen
+## Ideen: Trends oder eigene Liste
 
-`ideas.json` bearbeiten. Jede Idee hat:
+- **Automatisch (Standard):** Der Bot holt sich Ideen aus **Google Trends** (z. B. Deutschland). Nichts eintragen nötig. In `.env`: `IDEA_SOURCE=trends_then_file` oder `IDEA_SOURCE=trends`. Trends werden bis zu 12 Stunden gecacht (`TRENDS_CACHE_HOURS`, `TRENDS_COUNTRY=germany`).
+- **Nur eigene Ideen:** `IDEA_SOURCE=file` setzen und `ideas.json` befüllen.
+
+**ideas.json** (optional bzw. Fallback): Jede Idee hat:
 
 - `id`: Eindeutige ID
 - `title`: Titel (wird im Video angezeigt)
@@ -126,7 +131,7 @@ Beispiel:
 
 - **TikTok API**: Pro Access Token gelten Limits (z. B. 6 Upload-Requests pro Minute). Der Bot nutzt die Inbox-Variante; du bestätigst den Post in der TikTok-App.
 - **FFmpeg**: Unter Windows FFmpeg installieren und ins PATH legen ([ffmpeg.org](https://ffmpeg.org/)).
-- **Sprache**: Standard ist Deutsch (`lang="de"` in `VideoCreator`). In `src/video_creator/creator.py` kann `lang` geändert werden.
+- **Stimme**: In der `.env` kannst du `TTS_VOICE` setzen, z. B. `de-DE-KatjaNeural` (weiblich), `de-DE-ConradNeural` (männlich), `de-DE-AmalaNeural`, `de-DE-KillianNeural`. Liste mit `edge-tts --list-voices` anzeigen.
 
 ## Projektstruktur
 
