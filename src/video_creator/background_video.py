@@ -41,12 +41,19 @@ def _search_and_download(api_key: str, q: str, orientation: Optional[str], per_p
     )
     if orientation:
         url += f"&orientation={orientation}"
-    url += "&size=medium"
     try:
-        req = urllib.request.Request(url, headers={"Authorization": api_key.strip()})
+        req = urllib.request.Request(
+            url,
+            headers={
+                "Authorization": api_key.strip(),
+                "User-Agent": "TTBot/1.0 (https://github.com)",
+            },
+        )
         with urllib.request.urlopen(req, timeout=15) as resp:
             data = resp.read().decode()
-    except Exception:
+    except Exception as e:
+        if os.environ.get("TTBOT_DEBUG"):
+            print(f"[Pexels] Suche fehlgeschlagen: {e}")
         return None
     try:
         out = json.loads(data)
@@ -73,12 +80,16 @@ def _search_and_download(api_key: str, q: str, orientation: Optional[str], per_p
         tmp.close()
         if _download_url(download_url, tmp.name):
             return tmp.name
+        if os.environ.get("TTBOT_DEBUG"):
+            print("[Pexels] Download der Video-URL fehlgeschlagen.")
         try:
             os.remove(tmp.name)
         except OSError:
             pass
         return None
-    except Exception:
+    except Exception as e:
+        if os.environ.get("TTBOT_DEBUG"):
+            print(f"[Pexels] Verarbeitung fehlgeschlagen: {e}")
         return None
 
 

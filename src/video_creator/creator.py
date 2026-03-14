@@ -21,15 +21,15 @@ from src.video_creator import background_video
 WIDTH = 1080
 HEIGHT = 1920
 
-# Ansprechende Hintergründe – modern, einladend, gut lesbar
+# Kräftige, sichtbare Verläufe – nicht mehr wie eine Einheitsfarbe
 _GRADIENTS = [
-    [(0x1a, 0x1a, 0x2e), (0x16, 0x21, 0x3e), (0x0f, 0x34, 0x60)],   # Navy (vertrauenswürdig)
-    [(0x0f, 0x0c, 0x29), (0x30, 0x2b, 0x63), (0x24, 0x24, 0x42)],   # Dunkelblau–Lila
-    [(0x2d, 0x1b, 0x4e), (0x1a, 0x0a, 0x2a), (0x16, 0x0e, 0x28)],   # Tiefes Lila
-    [(0x1e, 0x3a, 0x5c), (0x14, 0x2e, 0x4a), (0x0d, 0x21, 0x36)],   # Ozean
-    [(0x33, 0x24, 0x4d), (0x24, 0x18, 0x3a), (0x1a, 0x12, 0x2e)],   # Weiches Lila
-    [(0x1b, 0x26, 0x38), (0x25, 0x32, 0x48), (0x14, 0x1e, 0x2d)],   # Slate
-    [(0x20, 0x2a, 0x3a), (0x2c, 0x3d, 0x52), (0x1a, 0x28, 0x38)],   # Kühles Grau-Blau
+    [(0x0d, 0x1b, 0x2d), (0x1b, 0x3a, 0x5c), (0x41, 0x6d, 0x9e)],   # Dunkel → Hellblau
+    [(0x1a, 0x0a, 0x2e), (0x3d, 0x1e, 0x6d), (0x6b, 0x3a, 0x9a)],   # Tiefes Lila → Violett
+    [(0x0f, 0x34, 0x60), (0x1e, 0x5a, 0x8c), (0x2e, 0x8b, 0xaa)],   # Navy → Türkis
+    [(0x16, 0x21, 0x3e), (0x2d, 0x3d, 0x6b), (0x5c, 0x6d, 0x9e)],   # Blau-Slate
+    [(0x2d, 0x1b, 0x4e), (0x5e, 0x3a, 0x8e), (0x7b, 0x5c, 0xb0)],   # Lila → Hell
+    [(0x0a, 0x25, 0x3a), (0x1a, 0x4a, 0x6a), (0x3a, 0x7a, 0x9a)],   # Ozean hell
+    [(0x1e, 0x12, 0x38), (0x3d, 0x2a, 0x5e), (0x6e, 0x5a, 0x9e)],   # Dunkelviolett → Lavendel
 ]
 
 # Schriftarten (priorisiert: fette/lesbare)
@@ -56,7 +56,7 @@ def _get_font(size: int = 72):
 
 
 def _make_gradient_image(width: int, height: int, gradient: List[Tuple[int, int, int]]) -> Image.Image:
-    """Vertikaler Farbverlauf mit weicher Vignette – Fokus in der Mitte."""
+    """Vertikaler + leichter diagonaler Verlauf, damit es nicht flach wirkt."""
     img = Image.new("RGB", (width, height))
     pix = img.load()
     n = len(gradient) - 1
@@ -64,18 +64,21 @@ def _make_gradient_image(width: int, height: int, gradient: List[Tuple[int, int,
     max_dist = (cx * cx + cy * cy) ** 0.5
     for y in range(height):
         t = y / (height - 1) if height > 1 else 0
-        i = min(int(t * n), n - 1)
-        local = (t * n) - i
-        r = int(gradient[i][0] + (gradient[i + 1][0] - gradient[i][0]) * local)
-        g = int(gradient[i][1] + (gradient[i + 1][1] - gradient[i][1]) * local)
-        b = int(gradient[i][2] + (gradient[i + 1][2] - gradient[i][2]) * local)
         for x in range(width):
+            # Vertikal + leichter Diagonaleinfluss (von oben-links)
+            t2 = t + 0.08 * (x / width - 0.5)
+            t2 = max(0.0, min(1.0, t2))
+            i = min(int(t2 * n), n - 1)
+            local = (t2 * n) - i
+            r = int(gradient[i][0] + (gradient[i + 1][0] - gradient[i][0]) * local)
+            g = int(gradient[i][1] + (gradient[i + 1][1] - gradient[i][1]) * local)
+            b = int(gradient[i][2] + (gradient[i + 1][2] - gradient[i][2]) * local)
             dist = ((x - cx) ** 2 + (y - cy) ** 2) ** 0.5
-            vignette = 1.0 - 0.12 * (dist / max_dist) ** 1.2  # Rand leicht abdunkeln
-            r2 = max(0, min(255, int(r * vignette)))
-            g2 = max(0, min(255, int(g * vignette)))
-            b2 = max(0, min(255, int(b * vignette)))
-            pix[x, y] = (r2, g2, b2)
+            vignette = 1.0 - 0.15 * (dist / max_dist) ** 1.0
+            r = max(0, min(255, int(r * vignette)))
+            g = max(0, min(255, int(g * vignette)))
+            b = max(0, min(255, int(b * vignette)))
+            pix[x, y] = (r, g, b)
     return img
 
 
@@ -121,25 +124,28 @@ def _draw_text_frame(
     x2 = x1 + box_w
     y2 = y1 + box_h
 
-    # Weiche Text-Karte (abgerundet, halbtransparent) – wirkt einladend
+    # Karte: dunkles Glas statt harter schwarzer Kasten (R,G,B,Alpha)
+    card_fill = (25, 30, 50, 220)
+    card_outline = (255, 255, 255, 45)
     if hasattr(draw, "rounded_rectangle"):
         draw.rounded_rectangle(
             [x1, y1, x2, y2],
             radius=card_radius,
-            fill=(0, 0, 0, 200),
-            outline=(255, 255, 255, 60),
-            width=2,
+            fill=card_fill,
+            outline=card_outline,
+            width=1,
         )
     else:
-        draw.rectangle([x1, y1, x2, y2], fill=(0, 0, 0, 200), outline=(255, 255, 255, 80))
+        draw.rectangle([x1, y1, x2, y2], fill=card_fill, outline=card_outline)
 
-    # Text zentriert in der Karte (mit weichem Schatten)
+    # Text: weicher Schatten + kräftiges Weiß
     for i, ln in enumerate(lines):
         bbox = draw.textbbox((0, 0), ln, font=font)
         tw = bbox[2] - bbox[0]
         x = (width - tw) // 2
         y = y0 + i * line_height
-        draw.text((x + 2, y + 2), ln, font=font, fill=(0, 0, 0, 140))
+        for dx, dy, alpha in [(3, 3, 120), (1, 1, 80)]:
+            draw.text((x + dx, y + dy), ln, font=font, fill=(0, 0, 0, alpha))
         draw.text((x, y), ln, font=font, fill=(255, 255, 255, 255))
     return img
 
