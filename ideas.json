@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "title": "5 Tipps für mehr Produktivität",
+    "text": "Tipp 1: Morgens zuerst die wichtigste Aufgabe erledigen. Tipp 2: Handy weglegen. Tipp 3: Pausen einplanen. Tipp 4: Eine Sache auf einmal. Tipp 5: Abends reflektieren.",
+    "hashtags": ["#produktivität", "#tipps", "#motivation"]
+  },
+  {
+    "id": "2",
+    "title": "Schnelles Rezept: Avocado-Toast",
+    "text": "Brot toasten, Avocado zerdrücken, Salz und Zitrone dazu. Auf das Brot streichen und mit Tomate und Ei servieren. Fertig in 5 Minuten!",
+    "hashtags": ["#rezept", "#avocado", "#frühstück"]
+  },
+  {
+    "id": "3",
+    "title": "Warum du jeden Tag spazieren gehen solltest",
+    "text": "Spazieren verbessert die Stimmung, reduziert Stress und hilft beim Nachdenken. Schon 15 Minuten am Tag machen einen Unterschied.",
+    "hashtags": ["#gesundheit", "#spazieren", "#mentalhealth"]
+  }
+]
