@@ -13,6 +13,7 @@ class Idea:
     title: str
     text: str
     hashtags: List[str]
+    topic: Optional[str] = None  # optional, z. B. für Pexels-Suche
 
     def caption(self, max_length: int = 2200) -> str:
         """Caption für TikTok (max 2200 Zeichen)."""
@@ -69,6 +70,7 @@ class IdeaCollector:
                 title=item.get("title", ""),
                 text=item.get("text", ""),
                 hashtags=item.get("hashtags", []),
+                topic=item.get("topic"),
             )
             for i, item in enumerate(data)
         ]

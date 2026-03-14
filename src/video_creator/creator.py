@@ -258,11 +258,12 @@ class VideoCreator:
         self.background_videos_dir = Path(background_videos_dir) if background_videos_dir else None
 
     def _get_background_video_path(self, idea: Idea) -> Optional[str]:
-        """Pexels oder lokaler Ordner – gibt Dateipfad zurück oder None (dann Gradient)."""
+        """Pexels oder lokaler Ordner – gibt Dateipfad zurück oder None."""
+        query = (getattr(idea, "topic", None) or "").strip() or self.background_query or None
         if self.pexels_api_key:
             path = background_video.fetch_pexels_video(
                 self.pexels_api_key,
-                query=self.background_query or None,
+                query=query,
                 orientation="portrait",
             )
             if path:
@@ -273,8 +274,19 @@ class VideoCreator:
 
     def create(self, idea: Idea, output_filename: Optional[str] = None) -> str:
         """
-        Erstellt ein Video: KI-Stimme, synchroner Lauftext, Hintergrund = Video (Natur etc.) oder Gradient.
+        Erstellt ein Video nur mit Hintergrund-Video (Pexels oder lokaler Ordner).
+        Ohne verfügbares Video wird der Prozess abgebrochen.
         """
+        # Zuerst: Hintergrund-Video besorgen – sonst sofort abbrechen
+        bg_video_path = self._get_background_video_path(idea)
+        if not bg_video_path:
+            raise RuntimeError(
+                "Kein Hintergrund-Video verfügbar. "
+                "PEXELS_API_KEY in .env setzen und gültig halten oder BACKGROUND_VIDEOS_DIR mit MP4-Dateien füllen. "
+                "Prozess abgebrochen."
+            )
+        temp_video_path = bg_video_path if bg_video_path.startswith(tempfile.gettempdir()) else None
+
         idea_id = idea.id.replace("/", "_").replace(" ", "_")[:30]
         if output_filename:
             out_name = output_filename
@@ -285,7 +297,7 @@ class VideoCreator:
         audio_path = self.output_dir / f"audio_{idea_id}.mp3"
         full_text = (idea.title.strip() + ". " + idea.text.strip()) if idea.title else idea.text
 
-        # 1. Audio + Satz-Timings (Edge TTS)
+        # 1. Audio + Satz-Timings (Edge TTS) – Zahlen/Erstens/Zweitens werden vor dem Vorlesen entfernt
         timings = create_audio_with_timing(
             full_text,
             voice=self.voice,
@@ -295,54 +307,30 @@ class VideoCreator:
         audio = AudioFileClip(str(audio_path))
         total_duration = audio.duration
 
-        # 2. Hintergrund: Video (Pexels/lokal) oder Gradient
-        bg_video_path = self._get_background_video_path(idea)
-        temp_video_path = None
-        layers = []
-
-        if bg_video_path:
-            try:
-                bg_clip = _make_background_video_clip(
-                    bg_video_path, self.width, self.height, total_duration
-                )
-                layers.append(bg_clip)
-                dark = _make_dark_overlay(self.width, self.height, total_duration, opacity=0.42)
-                layers.append(dark)
-                if bg_video_path.startswith(tempfile.gettempdir()):
-                    temp_video_path = bg_video_path
-                print("Hintergrund: Pexels-/Video-Clip wird verwendet.")
-            except Exception as e:
-                print(f"Hintergrund: Video fehlgeschlagen ({e}), verwende Gradient.")
-                bg_video_path = None
-                if layers:
-                    for c in layers:
-                        c.close()
-                    layers = []
-
-        if not layers:
-            if self.pexels_api_key or (self.background_videos_dir and self.background_videos_dir.is_dir()):
-                print("Hintergrund: Kein Video geladen (API/Download?), verwende Gradient.")
-            bg_img, clips_info = _timing_clips_from_frames(
-                self.width, self.height, timings, total_duration, _GRADIENTS
+        # 2. Hintergrund-Video (bereits geprüft)
+        try:
+            bg_clip = _make_background_video_clip(
+                bg_video_path, self.width, self.height, total_duration
             )
-            bg_path = self.output_dir / f"bg_{idea_id}.png"
-            bg_img.save(str(bg_path))
-            bg_clip = ImageClip(str(bg_path))
-            bg_clip = bg_clip.with_duration(total_duration) if _MOVIEPY_V2 else bg_clip.set_duration(total_duration)
-            layers.append(bg_clip)
+        except Exception as e:
+            if temp_video_path and os.path.exists(temp_video_path):
+                try:
+                    os.remove(temp_video_path)
+                except OSError:
+                    pass
+            raise RuntimeError(f"Hintergrund-Video konnte nicht geladen werden: {e}") from e
 
-        # Text-Frames (clips_info nur wenn wir Gradient genutzt haben)
-        if not bg_video_path:
-            _, clips_info = _timing_clips_from_frames(
-                self.width, self.height, timings, total_duration, _GRADIENTS
+        dark = _make_dark_overlay(self.width, self.height, total_duration, opacity=0.42)
+        layers = [bg_clip, dark]
+        print("Hintergrund: Video-Clip wird verwendet.")
+
+        # Text-Frames (synced mit TTS)
+        clips_info = []
+        for sent, start, duration in timings:
+            frame = _draw_text_frame(
+                self.width, self.height, sent, font_size=60, margin=72, card_padding=40, card_radius=28
             )
-        else:
-            clips_info = []
-            for sent, start, duration in timings:
-                frame = _draw_text_frame(
-                    self.width, self.height, sent, font_size=60, margin=72, card_padding=40, card_radius=28
-                )
-                clips_info.append((start, duration, frame))
+            clips_info.append((start, duration, frame))
 
         overlay_clips = []
         for start, duration, pil_image in clips_info:
@@ -389,11 +377,5 @@ class VideoCreator:
                     os.remove(p)
                 except OSError:
                     pass
-        bg_path = self.output_dir / f"bg_{idea_id}.png"
-        if os.path.exists(str(bg_path)):
-            try:
-                os.remove(str(bg_path))
-            except OSError:
-                pass
 
         return str(out_path)

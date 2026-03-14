@@ -82,6 +82,7 @@ def trends_to_ideas(
                 title=title,
                 text=text,
                 hashtags=hashtags,
+                topic=topic,
             )
         )
     return ideas
@@ -114,7 +115,7 @@ def save_trend_ideas_cache(base_dir: Path, ideas: List[Idea]) -> None:
     data = {
         "cached_at": datetime.now().isoformat(),
         "ideas": [
-            {"id": i.id, "title": i.title, "text": i.text, "hashtags": i.hashtags}
+            {"id": i.id, "title": i.title, "text": i.text, "hashtags": i.hashtags, "topic": getattr(i, "topic", None)}
             for i in ideas
         ],
     }

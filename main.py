@@ -80,7 +80,7 @@ def main():
 
     print(f"Idee: {idea.title}")
 
-    # Video erstellen (Edge TTS + Lauftext + Video- oder Gradient-Hintergrund)
+    # Video erstellen (nur mit Hintergrund-Video; sonst Abbruch)
     creator = VideoCreator(
         config.OUTPUT_DIR,
         width=config.VIDEO_WIDTH,
@@ -90,7 +90,11 @@ def main():
         background_query=getattr(config, "VIDEO_BACKGROUND_QUERY", "nature landscape"),
         background_videos_dir=config.BACKGROUND_VIDEOS_DIR or None,
     )
-    video_path = creator.create(idea)
+    try:
+        video_path = creator.create(idea)
+    except RuntimeError as e:
+        print(str(e))
+        return
     print(f"Video erstellt: {video_path}")
 
     if args.only_video:

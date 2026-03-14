@@ -14,6 +14,27 @@ EDGE_VOICES_DE = [
 ]
 
 
+def clean_text_for_tts(text: str) -> str:
+    """Entfernt Zahlen und 'Erstens, Zweitens' etc., damit die Stimme sie nicht vorliest."""
+    import re
+    if not text or not text.strip():
+        return text
+    # 1. 2. 3. oder 1) 2) 3)
+    text = re.sub(r"\d+[.)]\s+", "", text)
+    # Einzelne Zahl am Satzanfang (z. B. "3 Kleine" ohne Punkt)
+    text = re.sub(r"(?<=^|[.!?]\s)\d+\s+", "", text)
+    # Erstens, Zweitens, Drittens, ... (mit optionalem Komma/Punkt)
+    text = re.sub(
+        r"(?i)\b(Erstens|Zweitens|Drittens|Viertens|Fünftens|Sechstens|Siebtens|Achtens|Neuntens|Zehntens)\s*[,.]?\s*",
+        "",
+        text,
+    )
+    # Mehrfache Leerzeichen und Leerzeichen um Satzzeichen
+    text = re.sub(r"  +", " ", text)
+    text = re.sub(r"\s+([.,!?])", r"\1", text)
+    return text.strip()
+
+
 def _split_sentences(text: str) -> List[str]:
     """Teilt Text in Sätze (für synchrone Anzeige)."""
     import re
@@ -41,6 +62,7 @@ def create_audio_with_timing(
     """
     Erzeugt Audio mit Edge TTS und liefert Satz-Timings: [(satz, start_sec, duration_sec), ...].
     """
+    text = clean_text_for_tts(text)
     try:
         import edge_tts
     except ImportError:
