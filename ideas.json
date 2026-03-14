@@ -16,5 +16,287 @@
     "title": "Warum du jeden Tag spazieren gehen solltest",
     "text": "Spazieren verbessert die Stimmung, reduziert Stress und hilft beim Nachdenken. Schon 15 Minuten am Tag machen einen Unterschied.",
     "hashtags": ["#gesundheit", "#spazieren", "#mentalhealth"]
+  },
+  {
+    "id": "4",
+    "title": "3 Gewohnheiten für einen besseren Morgen",
+    "text": "Erstens: Kein Handy in der ersten Stunde. Zweitens: Licht an und kurz an die frische Luft. Drittens: Eine Sache erledigen, bevor du dich ablenken lässt.",
+    "hashtags": ["#morgenroutine", "#gewohnheiten", "#tipps"]
+  },
+  {
+    "id": "5",
+    "title": "So sparst du beim Einkaufen",
+    "text": "Mit Liste einkaufen gehen. Nie hungrig. Eigenmarken probieren. Große Packungen für Dinge, die nicht schlecht werden. So bleibt mehr im Portemonnaie.",
+    "hashtags": ["#sparen", "#einkaufen", "#geldtipps"]
+  },
+  {
+    "id": "6",
+    "title": "Warum Wasser trinken so wichtig ist",
+    "text": "Wasser hält dich wach, hilft der Haut und der Verdauung. Zwei Liter am Tag sind ein guter Richtwert. Ein Glas gleich morgens bringt den Kreislauf in Schwung.",
+    "hashtags": ["#wasser", "#gesundheit", "#tipps"]
+  },
+  {
+    "id": "7",
+    "title": "Schneller Nudelsalat für den Sommer",
+    "text": "Nudeln kochen, abkühlen lassen. Tomaten, Gurke, Feta und Oliven dazu. Mit Olivenöl, Salz, Pfeffer und Kräutern mischen. Fertig – perfekt für Picknick oder Party.",
+    "hashtags": ["#rezept", "#nudelsalat", "#sommer"]
+  },
+  {
+    "id": "8",
+    "title": "5 Dinge, die glückliche Menschen anders machen",
+    "text": "Sie vergleichen sich weniger. Sie sind dankbar. Sie verbringen Zeit mit Menschen, die ihnen guttun. Sie bewegen sich. Sie schlafen genug.",
+    "hashtags": ["#glück", "#mindset", "#leben"]
+  },
+  {
+    "id": "9",
+    "title": "So entrümpelst du in 10 Minuten",
+    "text": "Einen Bereich wählen: Schublade, Regal oder Ecke. Alles raus. Nur behalten, was du wirklich brauchst oder liebst. Rest weg – sofort. Nächste Woche den nächsten Bereich.",
+    "hashtags": ["#aufräumen", "#minimalismus", "#tipps"]
+  },
+  {
+    "id": "10",
+    "title": "Warum Schlaf dein Superpower ist",
+    "text": "Zu wenig Schlaf macht unkonzentriert, gereizt und anfälliger für Krankheiten. Sieben bis acht Stunden helfen beim Lernen, bei der Stimmung und bei der Figur. Schlaf ist keine verschwendete Zeit.",
+    "hashtags": ["#schlaf", "#gesundheit", "#tipps"]
+  },
+  {
+    "id": "11",
+    "title": "Einfaches Omelett in 5 Minuten",
+    "text": "Eier verquirlen, Salz und Pfeffer. Pfanne mit etwas Öl erhitzen. Ei rein, bei mittlerer Hitze stocken lassen. Nach Belieben Käse oder Kräuter einrollen. Fertig.",
+    "hashtags": ["#rezept", "#omelett", "#frühstück"]
+  },
+  {
+    "id": "12",
+    "title": "So hörst du auf zu prokrastinieren",
+    "text": "Die Aufgabe in einen winzigen ersten Schritt zerlegen. Nur fünf Minuten anfangen. Handy in anderen Raum. Belohnung danach einplanen. Oft reicht der Start, dann läuft es.",
+    "hashtags": ["#produktivität", "#prokrastination", "#tipps"]
+  },
+  {
+    "id": "13",
+    "title": "Warum Lesen dein Gehirn trainiert",
+    "text": "Lesen verbessert Konzentration, Wortschatz und Vorstellungskraft. Schon 15 Minuten am Tag reichen. Buch, E-Reader oder Hörbuch – Hauptsache, du nimmst dir Zeit für Geschichten oder Wissen.",
+    "hashtags": ["#lesen", "#lernen", "#gehirn"]
+  },
+  {
+    "id": "14",
+    "title": "Smoothie-Bowl zum Frühstück",
+    "text": "Gefrorene Beeren, Banane und etwas Milch oder Joghurt mixen. In eine Schüssel füllen. Mit Müsli, Nüssen, Kokosflocken und Obst dekorieren. Sieht gut aus und schmeckt super.",
+    "hashtags": ["#smoothiebowl", "#frühstück", "#gesund"]
+  },
+  {
+    "id": "15",
+    "title": "3 Wege, Stress sofort zu reduzieren",
+    "text": "Tief ein- und ausatmen: vier zählen ein, sieben halten, acht aus. Kurz rausgehen oder Fenster öffnen. Eine Sache streichen – nicht alles muss heute sein.",
+    "hashtags": ["#stress", "#entspannung", "#mentalhealth"]
+  },
+  {
+    "id": "16",
+    "title": "Warum du Fehler machen darfst",
+    "text": "Fehler zeigen, dass du etwas versuchst. Aus ihnen lernt man am meisten. Perfekt sein blockiert. Also: ausprobieren, scheitern, anpassen, weitermachen.",
+    "hashtags": ["#mindset", "#lernen", "#motivation"]
+  },
+  {
+    "id": "17",
+    "title": "Schneller Tomatensalat",
+    "text": "Tomaten in Scheiben oder Stücke schneiden. Zwiebel fein hacken. Mit Olivenöl, Salz, Pfeffer und frischem Basilikum mischen. Optional etwas Mozzarella. Schmeckt zu allem.",
+    "hashtags": ["#rezept", "#salat", "#tomate"]
+  },
+  {
+    "id": "18",
+    "title": "So findest du deine Prioritäten",
+    "text": "Frag dich: Was wäre wichtig, wenn du nur noch ein Jahr hättest? Was macht dich zufrieden? Liste machen und die Top drei schützen – vor anderen Terminen und vor Aufschieberei.",
+    "hashtags": ["#prioritäten", "#zeitmanagement", "#tipps"]
+  },
+  {
+    "id": "19",
+    "title": "Warum Bewegung nicht nur dem Körper hilft",
+    "text": "Laufen, Radfahren oder Krafttraining bauen Stress ab, machen den Kopf frei und verbessern den Schlaf. Du musst kein Profi sein – regelmäßig reicht.",
+    "hashtags": ["#bewegung", "#sport", "#gesundheit"]
+  },
+  {
+    "id": "20",
+    "title": "5 Dinge, die du von erfolgreichen Menschen lernen kannst",
+    "text": "Sie stehen früh auf. Sie lesen. Sie planen ihren Tag. Sie sagen auch mal Nein. Sie arbeiten an ihren Gewohnheiten, nicht nur an Einzelprojekten.",
+    "hashtags": ["#erfolg", "#gewohnheiten", "#lernen"]
+  },
+  {
+    "id": "21",
+    "title": "Einfache Gemüsepfanne",
+    "text": "Zwiebel und Knoblauch anbraten. Paprika, Zucchini und Tomate in Stücke schneiden und dazu. Mit Gewürzen abschmecken. Optional Reis oder Nudeln dazu. Schnell und sättigend.",
+    "hashtags": ["#rezept", "#gemüse", "#pfanne"]
+  },
+  {
+    "id": "22",
+    "title": "Warum Pausen produktiver machen",
+    "text": "Ohne Pause lässt Konzentration nach. Kurze Pausen alle 90 Minuten helfen. Aufstehen, dehnen, kurz raus – danach arbeitet der Kopf wieder besser.",
+    "hashtags": ["#pausen", "#produktivität", "#tipps"]
+  },
+  {
+    "id": "23",
+    "title": "So wirkst du selbstbewusster",
+    "text": "Aufrecht stehen und gehen. Blickkontakt halten. Langsamer und klarer sprechen. Kleidung, in der du dich wohlfühlst. Übung macht den Unterschied.",
+    "hashtags": ["#selbstbewusstsein", "#tipps", "#mindset"]
+  },
+  {
+    "id": "24",
+    "title": "Haferflocken-Frühstück in 3 Minuten",
+    "text": "Haferflocken mit kochender Milch oder Wasser übergießen. Zwei Minuten ziehen lassen. Mit Obst, Nüssen, Honig oder Zimt toppen. Satt und gesund in wenigen Minuten.",
+    "hashtags": ["#haferflocken", "#frühstück", "#rezept"]
+  },
+  {
+    "id": "25",
+    "title": "Warum du dein Handy abends weglegen solltest",
+    "text": "Blaulicht stört den Schlaf. Scrollen hält wach. Eine Stunde vor dem Schlafen ohne Bildschirm hilft dir, besser ein- und durchzuschlafen.",
+    "hashtags": ["#handy", "#schlaf", "#digitaldetox"]
+  },
+  {
+    "id": "26",
+    "title": "3 Tipps für bessere Konversationen",
+    "text": "Echt zuhören statt nur auf deinen nächsten Satz warten. Offene Fragen stellen. Interesse zeigen – Menschen merken, ob du dabei bist.",
+    "hashtags": ["#kommunikation", "#tipps", "#gespräch"]
+  },
+  {
+    "id": "27",
+    "title": "Schneller Hummus selbst gemacht",
+    "text": "Kichererbsen aus der Dose abtropfen. Mit Tahini, Zitrone, Knoblauch, Salz und etwas Öl pürieren. Nach Bedarf Wasser zugeben. Mit Paprikapulver und Olivenöl servieren.",
+    "hashtags": ["#hummus", "#rezept", "#dip"]
+  },
+  {
+    "id": "28",
+    "title": "Warum Nein sagen okay ist",
+    "text": "Nein sagen schützt deine Zeit und Energie. Du schuldest nicht jedem eine Ja. Wer ehrlich Nein sagt, wird ernst genommen und hat mehr Kraft für das, was wirklich zählt.",
+    "hashtags": ["#neinsagen", "#grenzen", "#mindset"]
+  },
+  {
+    "id": "29",
+    "title": "So startest du den Tag ohne Stress",
+    "text": "Wecker etwas früher stellen. Kein Handy als erstes. Kurz strecken, Wasser trinken. Die erste wichtige Sache klar vor sich haben. Der Rest kommt danach.",
+    "hashtags": ["#morgen", "#stress", "#routine"]
+  },
+  {
+    "id": "30",
+    "title": "Einfacher Obstsalat",
+    "text": "Äpfel, Bananen, Orangen und Beeren in Stücke schneiden. Mit etwas Zitronensaft beträufeln, damit es nicht braun wird. Optional Joghurt oder Honig. Frisch und schnell.",
+    "hashtags": ["#obstsalat", "#rezept", "#gesund"]
+  },
+  {
+    "id": "31",
+    "title": "Warum Dankbarkeit deine Stimmung verbessert",
+    "text": "Drei Dinge aufschreiben, für die du dankbar bist – jeden Abend. Das lenkt den Fokus auf das Gute. Nach ein paar Wochen fühlst du dich oft ausgeglichener.",
+    "hashtags": ["#dankbarkeit", "#mentalhealth", "#tipps"]
+  },
+  {
+    "id": "32",
+    "title": "5 Fakten über Kaffee",
+    "text": "Kaffee kann die Konzentration fördern. Zu viel kann nervös machen. Der beste Zeitpunkt ist etwa eine Stunde nach dem Aufwachen. Entkoffeiniert wirkt anders. Wasser dazu trinken hilft dem Körper.",
+    "hashtags": ["#kaffee", "#fakten", "#wissen"]
+  },
+  {
+    "id": "33",
+    "title": "So lernst du schneller und behältst mehr",
+    "text": "Kurz wiederholen statt einmal lange. Pausen einbauen. In eigenen Worten zusammenfassen. Verschiedene Sinne nutzen – lesen, hören, aufschreiben.",
+    "hashtags": ["#lernen", "#tipps", "#wissen"]
+  },
+  {
+    "id": "34",
+    "title": "Schnelle Gemüsesuppe",
+    "text": "Zwiebel und Knoblauch anbraten. Gemüsebrühe aufgießen. Kartoffeln, Möhren und was du da hast klein schneiden und mitkochen. Pürieren oder so lassen. Mit Kräutern servieren.",
+    "hashtags": ["#suppe", "#rezept", "#gemüse"]
+  },
+  {
+    "id": "35",
+    "title": "Warum frische Luft so wichtig ist",
+    "text": "Sauerstoff und Tageslicht helfen der Konzentration und der Stimmung. Selbst zehn Minuten draußen machen einen Unterschied. Ideal: morgens und in der Mittagspause.",
+    "hashtags": ["#frischeluft", "#gesundheit", "#tipps"]
+  },
+  {
+    "id": "36",
+    "title": "3 Wege, Konflikte ruhiger zu lösen",
+    "text": "Erst zuhören, dann antworten. Ich-Botschaften nutzen: Ich fühle mich so, wenn das passiert. Gemeinsam nach einer Lösung suchen statt gewinnen wollen.",
+    "hashtags": ["#konflikt", "#kommunikation", "#tipps"]
+  },
+  {
+    "id": "37",
+    "title": "Quark mit Obst – Power-Frühstück",
+    "text": "Magerquark in eine Schüssel. Beeren, Banane oder anderes Obst dazu. Optional Honig, Nüsse oder Leinsamen. Viel Eiweiß, sättigend und schnell gemacht.",
+    "hashtags": ["#quark", "#frühstück", "#protein"]
+  },
+  {
+    "id": "38",
+    "title": "Warum Ziele aufschreiben hilft",
+    "text": "Was du aufschreibst, wird klarer. Du kannst es immer wieder lesen und anpassen. Kleine Schritte dazu notieren. So wird aus einem Wunsch ein Plan.",
+    "hashtags": ["#ziele", "#planung", "#erfolg"]
+  },
+  {
+    "id": "39",
+    "title": "So bleibst du motiviert, wenn es schwer wird",
+    "text": "Erinnere dich an den Grund, warum du angefangen hast. Feiere kleine Fortschritte. Such dir Menschen, die dasselbe Ziel haben. Einen Tag Pause ist okay – aufgeben nicht.",
+    "hashtags": ["#motivation", "#durchhalten", "#mindset"]
+  },
+  {
+    "id": "40",
+    "title": "Einfacher Guacamole-Dip",
+    "text": "Avocados zerdrücken. Limette auspressen, Salz und etwas Chili dazu. Optional Tomate und Zwiebel fein hacken und untermischen. Mit Chips oder zu Tacos servieren.",
+    "hashtags": ["#guacamole", "#rezept", "#dip"]
+  },
+  {
+    "id": "41",
+    "title": "Warum du dir Hobbys ohne Leistungsdruck gönnen solltest",
+    "text": "Etwas nur zum Spaß zu machen, entspannt und füllt die Batterien. Du musst nicht gut sein. Malen, Musik, Garten – Hauptsache, es macht dir Freude.",
+    "hashtags": ["#hobby", "#entspannung", "#leben"]
+  },
+  {
+    "id": "42",
+    "title": "5 Dinge, die du über Geld wissen solltest",
+    "text": "Erst sparen, dann ausgeben. Notgroschen für drei bis sechs Monate anstreben. Kleine Beträge regelmäßig anlegen. Kredite für Konsum vermeiden. Über Geld sprechen ist okay.",
+    "hashtags": ["#geld", "#sparen", "#finanzen"]
+  },
+  {
+    "id": "43",
+    "title": "Schneller Tee gegen Erkältung",
+    "text": "Heißes Wasser, frischer Ingwer, Zitrone und Honig. Ingwer wirkt entzündungshemmend, Zitrone gibt Vitamin C, Honig beruhigt den Hals. Einfach und wohltuend.",
+    "hashtags": ["#tee", "#erkältung", "#gesundheit"]
+  },
+  {
+    "id": "44",
+    "title": "Warum Vergleichen mit anderen unglücklich macht",
+    "text": "Du siehst nur die Bühne der anderen, nicht ihre Sorgen. Dein Weg ist dein Weg. Besser: mit dir selbst von gestern vergleichen. Jeder hat sein Tempo.",
+    "hashtags": ["#vergleich", "#mindset", "#glück"]
+  },
+  {
+    "id": "45",
+    "title": "So baust du eine Lesegewohnheit auf",
+    "text": "Immer dasselbe Ritual: z. B. zehn Seiten vor dem Schlafen. Buch sichtbar hinlegen. Mit leichten Büchern starten. Kein Handy in Reichweite in der Lesezeit.",
+    "hashtags": ["#lesen", "#gewohnheiten", "#tipps"]
+  },
+  {
+    "id": "46",
+    "title": "Einfaches Rührei mit Kräutern",
+    "text": "Eier verquirlen, Salz und Pfeffer. In die heiße Pfanne mit etwas Butter. Bei mittlerer Hitze unter Rühren stocken lassen. Frische Kräuter drüber. Fertig.",
+    "hashtags": ["#rührei", "#frühstück", "#rezept"]
+  },
+  {
+    "id": "47",
+    "title": "Warum Lachen gesund ist",
+    "text": "Lachen lockert die Muskeln, senkt Stresshormone und kann das Immunsystem stärken. Such dir Menschen und Inhalte, die dich zum Lachen bringen. Es kostet nichts.",
+    "hashtags": ["#lachen", "#gesundheit", "#tipps"]
+  },
+  {
+    "id": "48",
+    "title": "3 Tipps für weniger Chaos im Alltag",
+    "text": "Alles hat einen festen Platz. Abends zehn Minuten aufräumen. To-do-Liste mit maximal drei wichtigen Dingen pro Tag. Weniger ist oft mehr.",
+    "hashtags": ["#ordnung", "#alltag", "#tipps"]
+  },
+  {
+    "id": "49",
+    "title": "Warum du Pausen ohne Handy brauchst",
+    "text": "Statt zu scrollen: kurz die Augen schließen, dehnen oder rausgehen. So erholt sich der Kopf wirklich. Das Handy kann in der Pause in der Tasche bleiben.",
+    "hashtags": ["#pausen", "#handy", "#entspannung"]
+  },
+  {
+    "id": "50",
+    "title": "Schneller Joghurt mit Müsli und Obst",
+    "text": "Joghurt in eine Schüssel. Müsli oder Haferflocken dazu. Frisches Obst obendrauf – Beeren, Banane, Apfel. Optional Nüsse oder Honig. Perfekt für unterwegs oder zu Hause.",
+    "hashtags": ["#joghurt", "#frühstück", "#rezept"]
   }
 ]

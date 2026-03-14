@@ -1,6 +1,7 @@
 """Erstellt TikTok-Videos: gute KI-Stimme (Edge TTS), synchroner Lauftext, Video- oder Gradient-Hintergrund."""
 import os
 import tempfile
+from datetime import datetime
 from pathlib import Path
 from typing import List, Optional, Tuple
 
@@ -269,7 +270,11 @@ class VideoCreator:
         Erstellt ein Video: KI-Stimme, synchroner Lauftext, Hintergrund = Video (Natur etc.) oder Gradient.
         """
         idea_id = idea.id.replace("/", "_").replace(" ", "_")[:30]
-        out_name = output_filename or f"video_{idea_id}.mp4"
+        if output_filename:
+            out_name = output_filename
+        else:
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            out_name = f"video_{idea_id}_{timestamp}.mp4"
         out_path = self.output_dir / out_name
         audio_path = self.output_dir / f"audio_{idea_id}.mp3"
         full_text = (idea.title.strip() + ". " + idea.text.strip()) if idea.title else idea.text
