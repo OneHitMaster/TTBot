@@ -47,16 +47,18 @@ def html_index():
         hashtag_str = " ".join(hashtags)
         caption = v.get("caption") or ""
         caption_esc = _html_esc(caption)
+        hashtags_esc = _html_esc(hashtag_str)
         rows.append(f"""
         <div class="card">
           <div class="card-title">{_html_esc(str(title))}</div>
           <a href="/{v["file"]}" class="video-link">▶ {v["file"]}</a>
           <p class="text">{_html_esc(text)}</p>
-          <p class="hashtags">{_html_esc(hashtag_str)}</p>
+          <p class="hashtags">{hashtags_esc}</p>
           <div class="caption-data" style="display:none">{caption_esc}</div>
+          <div class="hashtags-data" style="display:none">{hashtags_esc}</div>
           <div class="actions">
             <button type="button" onclick="copyCaption(this)">Caption kopieren</button>
-            <button type="button" onclick="copyHashtags(this)" data-hashtags="{_html_esc(hashtag_str).replace('"', '&quot;')}">Hashtags kopieren</button>
+            <button type="button" onclick="copyHashtags(this)">Hashtags kopieren</button>
           </div>
         </div>""")
     videos_html = "\n".join(rows)
@@ -80,30 +82,55 @@ def html_index():
     button {{ background: #0f3460; color: #eee; border: none; padding: 0.5rem 0.75rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; }}
     button:hover {{ background: #1a4a7a; }}
     .toast {{ position: fixed; bottom: 1rem; right: 1rem; background: #2e7d32; color: #fff; padding: 0.5rem 1rem; border-radius: 8px; display: none; }}
+    .toast-error {{ background: #c62828; }}
   </style>
 </head>
 <body>
   <h1>TTBot Videos</h1>
   <p>Neueste zuerst. Caption/Hashtags kopieren und in der TikTok-App einfügen.</p>
   <div id="list">{videos_html}</div>
-  <div id="toast" class="toast">In Zwischenablage kopiert</div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script>
+    function copyToClipboard(text) {{
+      if (!text) return Promise.resolve(false);
+      if (navigator.clipboard && navigator.clipboard.writeText) {{
+        return navigator.clipboard.writeText(text).then(function() {{ return true; }}).catch(function() {{ return fallbackCopy(text); }});
+      }}
+      return Promise.resolve(fallbackCopy(text));
+    }}
+    function fallbackCopy(text) {{
+      try {{
+        var ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.left = "-9999px";
+        document.body.appendChild(ta);
+        ta.select();
+        ta.setSelectionRange(0, text.length);
+        var ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+        return ok;
+      }} catch (e) {{ return false; }}
+    }}
     function copyCaption(btn) {{
-      const el = btn.closest(".card").querySelector(".caption-data");
-      const caption = el ? el.textContent : "";
-      if (!caption) return;
-      navigator.clipboard.writeText(caption).then(() => showToast());
+      var card = btn.closest(".card");
+      var el = card ? card.querySelector(".caption-data") : null;
+      var caption = el ? el.textContent : "";
+      copyToClipboard(caption).then(function(ok) {{ showToast(ok ? "Caption kopiert" : "Kopieren fehlgeschlagen"); }});
     }}
     function copyHashtags(btn) {{
-      const raw = btn.getAttribute("data-hashtags") || "";
-      const hashtags = raw.replace(/&quot;/g, '"');
-      if (!hashtags) return;
-      navigator.clipboard.writeText(hashtags).then(() => showToast());
+      var card = btn.closest(".card");
+      var el = card ? card.querySelector(".hashtags-data") : null;
+      var hashtags = el ? el.textContent : "";
+      copyToClipboard(hashtags.trim()).then(function(ok) {{ showToast(ok ? "Hashtags kopiert" : "Kopieren fehlgeschlagen"); }});
     }}
-    function showToast() {{
-      const t = document.getElementById("toast");
+    function showToast(msg) {{
+      var t = document.getElementById("toast");
+      t.textContent = msg || "In Zwischenablage kopiert";
       t.style.display = "block";
-      setTimeout(() => {{ t.style.display = "none"; }}, 2000);
+      t.className = "toast " + (msg.indexOf("fehlgeschlagen") !== -1 ? "toast-error" : "");
+      setTimeout(function() {{ t.style.display = "none"; t.className = "toast"; }}, 2500);
     }}
   </script>
 </body>
