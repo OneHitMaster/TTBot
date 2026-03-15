@@ -34,16 +34,25 @@ _GRADIENTS = [
     [(0x1e, 0x12, 0x38), (0x3d, 0x2a, 0x5e), (0x6e, 0x5a, 0x9e)],   # Dunkelviolett → Lavendel
 ]
 
-# Schriftarten (priorisiert: fette/lesbare)
+# Schriftarten: modernere Sans-Serif zuerst, dann Fallbacks
 _FONT_PATHS = [
+    # Windows – moderne UI-Schriften
+    os.path.join(os.environ.get("WINDIR", "C:\\Windows"), "Fonts", "segoeui.ttf"),
+    os.path.join(os.environ.get("WINDIR", "C:\\Windows"), "Fonts", "segoeuib.ttf"),
     os.path.join(os.environ.get("WINDIR", "C:\\Windows"), "Fonts", "arialbd.ttf"),
     os.path.join(os.environ.get("WINDIR", "C:\\Windows"), "Fonts", "arial.ttf"),
-    "arialbd.ttf",
-    "arial.ttf",
+    # Linux / Pi – klare, moderne Sans
+    "/usr/share/fonts/truetype/noto/NotoSans-Bold.ttf",
+    "/usr/share/fonts/truetype/noto/NotoSans-Regular.ttf",
+    "/usr/share/fonts/truetype/ubuntu/Ubuntu-Bold.ttf",
+    "/usr/share/fonts/truetype/ubuntu/Ubuntu-Regular.ttf",
     "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
     "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
-    "/usr/share/fonts/truetype/freefont/FreeSansBold.otf",
     "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
+    "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
+    "/usr/share/fonts/truetype/freefont/FreeSansBold.otf",
+    "arialbd.ttf",
+    "arial.ttf",
 ]
 
 
@@ -102,50 +111,104 @@ def _draw_text_frame(
     height: int,
     text: str,
     font_size: int = 68,
-    margin: int = 80,
+    margin: int = 100,
     card_padding: int = 0,
     card_radius: int = 0,
 ) -> Image.Image:
-    """Moderner Lauftext ohne Box: weißer Text mit dezentem Rand für Lesbarkeit auf Video."""
+    """Moderner Lauftext ohne Box: immer vollständig im sichtbaren Bereich (sichere Ränder, lange Wörter umgebrochen)."""
     img = Image.new("RGBA", (width, height), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
     font = _get_font(font_size)
-    max_w = width - 2 * margin
+    # Sicherer Bereich: Outline/Schatten brauchen Platz, daher extra Puffer
+    safe_margin = margin + 8
+    max_w = width - 2 * safe_margin
+
+    def measure(s: str):
+        bbox = draw.textbbox((0, 0), s, font=font)
+        return bbox[2] - bbox[0]
+
+    def split_long_word(word: str) -> list:
+        """Bricht zu lange Wörter um (z. B. Haferflocken-Frühstück), damit sie in max_w passen."""
+        if measure(word) <= max_w:
+            return [word]
+        # Zuerst bei Bindestrichen trennen
+        parts = word.split("-")
+        out = []
+        for i, p in enumerate(parts):
+            need_hyphen_after = i < len(parts) - 1
+            segment = p + ("-" if need_hyphen_after else "")
+            if measure(segment) <= max_w:
+                out.append(segment)
+            else:
+                # Wort ohne Bindestrich zu lang: in Zeichen-Chunks brechen
+                chunk = ""
+                for c in segment:
+                    if measure(chunk + c) <= max_w:
+                        chunk += c
+                    else:
+                        if chunk:
+                            out.append(chunk)
+                        chunk = c
+                if chunk:
+                    out.append(chunk)
+        return out
+
     words = text.split()
     lines = []
     line = []
+    line_w = 0
     for w in words:
-        line.append(w)
-        bbox = draw.textbbox((0, 0), " ".join(line), font=font)
-        if bbox[2] - bbox[0] > max_w and len(line) > 1:
-            line.pop()
-            lines.append(" ".join(line))
-            line = [w]
+        for part in split_long_word(w):
+            candidate = " ".join(line + [part]).strip() if line else part
+            cw = measure(candidate)
+            if cw <= max_w:
+                line.append(part)
+                line_w = cw
+            else:
+                if line:
+                    lines.append(" ".join(line))
+                line = [part] if measure(part) <= max_w else split_long_word(part)
+                line_w = measure(" ".join(line)) if len(line) > 1 else measure(line[0]) if line else 0
     if line:
         lines.append(" ".join(line))
+    lines = [ln for ln in lines if ln.strip()]
+
     line_height = int(font_size * 1.45)
     total_h = len(lines) * line_height
     y0 = (height - total_h) // 2
 
-    # Keine Box – nur Text mit Outline (Rand) für Lesbarkeit auf jedem Hintergrund
-    outline_offsets = [(-2, -2), (-2, 0), (-2, 2), (0, -2), (0, 2), (2, -2), (2, 0), (2, 2)]
-    outline_color = (0, 0, 0, 200)
+    # Weicher Schatten (mehrere Lagen = Tiefe, wirkt weniger stumpf)
+    shadow_layers = [
+        (6, 6, 80),
+        (4, 5, 100),
+        (2, 3, 130),
+    ]
+    # Kontur: etwas dicker für klare Kante
+    outline_offsets = [
+        (-3, -3), (-3, 0), (-3, 3), (0, -3), (0, 3), (3, -3), (3, 0), (3, 3),
+        (-2, -2), (-2, 0), (-2, 2), (0, -2), (0, 2), (2, -2), (2, 0), (2, 2),
+    ]
+    outline_color = (0, 0, 0, 220)
     text_color = (255, 255, 255, 255)
-    # Optional: leichter Schatten für Tiefe
-    shadow_offset = (3, 4)
-    shadow_color = (0, 0, 0, 140)
+    # Leichter Glanz oben-links (optional, dezent)
+    highlight_color = (255, 255, 255, 35)
 
     for i, ln in enumerate(lines):
         bbox = draw.textbbox((0, 0), ln, font=font)
         tw = bbox[2] - bbox[0]
         x = (width - tw) // 2
+        x = max(safe_margin - 4, min(width - safe_margin - tw + 4, x))
         y = y0 + i * line_height
-        # Schatten
-        draw.text((x + shadow_offset[0], y + shadow_offset[1]), ln, font=font, fill=shadow_color)
-        # Outline
+
+        # 1. Weicher Schatten (von hinten nach vorn zeichnen)
+        for sx, sy, alpha in shadow_layers:
+            draw.text((x + sx, y + sy), ln, font=font, fill=(0, 0, 0, alpha))
+        # 2. Kontur
         for dx, dy in outline_offsets:
             draw.text((x + dx, y + dy), ln, font=font, fill=outline_color)
-        # Text
+        # 3. Dezenter Glanz (oben-links)
+        draw.text((x - 1, y - 1), ln, font=font, fill=highlight_color)
+        # 4. Haupttext
         draw.text((x, y), ln, font=font, fill=text_color)
     return img
 
@@ -230,7 +293,7 @@ def _timing_clips_from_frames(
     bg_img = _make_gradient_image(width, height, random.choice(gradient_colors))
     clips_info = []
     for sent, start, duration in timings:
-        frame = _draw_text_frame(width, height, sent, font_size=64, margin=72)
+        frame = _draw_text_frame(width, height, sent, font_size=60, margin=100)
         clips_info.append((start, duration, frame))
     return bg_img, clips_info
 
@@ -339,7 +402,7 @@ class VideoCreator:
         clips_info = []
         for sent, start, duration in timings:
             frame = _draw_text_frame(
-                self.width, self.height, sent, font_size=64, margin=72
+                self.width, self.height, sent, font_size=60, margin=100
             )
             clips_info.append((start, duration, frame))
 
