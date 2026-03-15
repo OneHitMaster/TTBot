@@ -21,28 +21,28 @@ TRENDS_COUNTRY_MAP = {
     "united_states": "p1",
 }
 
-# Titel-Formeln für mehr Klicks und Neugier (Likes/Follows)
+# Titel: Fakten / „Das weißt du nicht“ – keine Koch- oder Rezept-Themen
 TREND_TITLE_TEMPLATES = [
-    "Was dir niemand über {topic} erzählt",
-    "Der {topic}-Fehler, den die meisten machen",
-    "Warum {topic} gerade alle falsch machen",
-    "3 Dinge, die du über {topic} wissen musst",
-    "Was wirklich hinter {topic} steckt",
-    "Warum {topic} dein Leben verändert",
-    "Der {topic}-Trick, den alle übersehen",
-    "Was Experten über {topic} nicht sagen",
+    "Fakten über {topic}, die kaum einer kennt",
+    "Was du über {topic} noch nicht wusstest",
+    "5 Fakten zu {topic}, die dich überraschen",
+    "Über {topic}: Das haben dir die wenigsten erzählt",
+    "Wahre Fakten über {topic} – kein Bullshit",
+    "Das solltest du über {topic} wissen",
+    "Überraschende Fakten über {topic}",
+    "Was wirklich hinter {topic} steckt – Fakten statt Mythen",
 ]
 
-# Gesprochener Text: natürlich, mit Hook und Mehrwert (bessere Aussprache, flüssige Sätze)
+# Gesprochener Text: Fakten, Wissenswertes, keine Rezepte
 TREND_TEXT_TEMPLATES = [
-    "Die meisten wissen nicht, was wirklich bei {topic} passiert. Hier die Punkte, die den Unterschied machen.",
-    "Bei {topic} machen fast alle denselben Fehler. So machst du es richtig – kurz und klar.",
-    "Über {topic} wird viel geredet, aber wenig gesagt. Das sind die Dinge, die wirklich zählen.",
-    "Was du über {topic} wissen musst – bevor es zu spät ist. Die wichtigsten Fakten in einer Minute.",
-    "Experten schweigen dazu. Bei {topic} gilt: Diese Punkte solltest du nicht ignorieren.",
-    "Warum {topic} gerade alle falsch verstehen – und wie du es richtig machst.",
-    "Kurz und knackig: Das solltest du zu {topic} wissen. Drei Punkte, die wirklich weiterhelfen.",
-    "Bei {topic} lohnt sich ein zweiter Blick. Hier ist, was die meisten übersehen.",
+    "Die wenigsten kennen diese Fakten zu {topic}. Hier die Punkte, die wirklich hängen bleiben.",
+    "Über {topic} kursieren viele Mythen. Das sind die Fakten, die stimmen.",
+    "Was du über {topic} noch nicht wusstest – kurz und mit Substanz.",
+    "Drei Fakten zu {topic}, die dein Bild davon verändern können.",
+    "Experten wissen es, die meisten nicht: So tickt {topic} wirklich.",
+    "Über {topic}: Hier die Fakten, die kaum jemand kennt.",
+    "Kurz und faktenbasiert: Das solltest du zu {topic} wissen.",
+    "Was wirklich hinter {topic} steckt – ohne Floskeln, nur Fakten.",
 ]
 
 
@@ -52,8 +52,8 @@ def _hashtag_safe(s: str) -> str:
     return s.lower()[:30] if s else "trend"
 
 
-def fetch_trending_topics(country: str = "germany", max_topics: int = 10) -> List[str]:
-    """Lädt aktuelle Suchtrends von Google Trends für das angegebene Land."""
+def fetch_trending_topics(country: str = "germany", max_topics: int = 15) -> List[str]:
+    """Lädt aktuelle Suchtrends von Google Trends – Themen, die gerade viele bewegen und oft gut auf TikTok funktionieren."""
     try:
         from pytrends.request import TrendReq
     except ImportError:

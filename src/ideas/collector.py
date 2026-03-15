@@ -1,4 +1,4 @@
-"""Ideensammlung: Lädt Ideen aus Dateien oder kann später um APIs erweitert werden."""
+"""Ideensammlung: Standard = nur Google Trends (aktuelle Suchtrends, keine ideas.json nötig)."""
 import json
 import random
 from pathlib import Path
@@ -28,13 +28,13 @@ class IdeaCollector:
     def __init__(
         self,
         ideas_path: Optional[Path] = None,
-        source: str = "file",
+        source: str = "trends",
         base_dir: Optional[Path] = None,
         trends_country: str = "germany",
         trends_cache_hours: int = 12,
     ):
         self.ideas_path = ideas_path or Path(__file__).resolve().parent.parent.parent / "ideas.json"
-        self.source = source  # "file" | "trends" | "trends_then_file"
+        self.source = source  # "trends" (Standard) | "trends_then_file" | "file"
         self.base_dir = base_dir or self.ideas_path.parent
         self.trends_country = trends_country
         self.trends_cache_hours = trends_cache_hours
@@ -50,7 +50,7 @@ class IdeaCollector:
         if cached:
             self._trend_ideas = cached
             return self._trend_ideas
-        topics = trends.fetch_trending_topics(country=self.trends_country, max_topics=10)
+        topics = trends.fetch_trending_topics(country=self.trends_country, max_topics=15)
         if not topics:
             self._trend_ideas = []
             return []

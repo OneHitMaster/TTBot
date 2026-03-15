@@ -17,7 +17,7 @@ Zwei Wege:
 6. In der TikTok-App hochladen
 7. Optional: Bot per Cron täglich laufen lassen
 
-**Du brauchst dafür:** keinen TikTok-Developer-Account, keine .env mit Keys, keine Redirect-URI. Ideen kommen automatisch aus **Google Trends** (Standard: `IDEA_SOURCE=trends_then_file`) – du musst nichts in `ideas.json` eintragen.
+**Du brauchst dafür:** keinen TikTok-Developer-Account, keine .env mit Keys, keine Redirect-URI. Themen kommen automatisch aus **Google Trends** – **keine ideas.json nötig**, der Bot sucht sich aktuelle Suchtrends und macht daraus Videos.
 
 ---
 
@@ -122,7 +122,7 @@ python main.py --only-video
 
 Der Bot:
 
-1. Liest die nächste Idee aus `ideas.json`
+1. Holt ein aktuelles Trend-Thema (Google Trends, keine ideas.json nötig)
 2. Erstellt daraus ein Video (Sprache + Titelbild) und speichert es in **`~/TTBot/output/`**
 
 Du siehst z.B.: „Idee: …“, „Video erstellt: …/output/video_1.mp4“.
@@ -222,7 +222,7 @@ Videos vom Pi in einen Cloud-Ordner kopieren (z.B. per [rclone](https://rclone.o
 
 1. Video vom Pi aufs Handy geholt (Option A, B oder C).
 2. **TikTok-App** öffnen → „+” → „Hochladen“ → die heruntergeladene/geöffnete Video-Datei auswählen.
-3. Caption und Hashtags eintragen (Vorschläge stehen in `ideas.json` bzw. in der Bot-Ausgabe).
+3. Caption und Hashtags eintragen (Vorschläge stehen auf der Übersichtsseite :8080 bzw. in der Bot-Ausgabe).
 
 Damit erstellst du die Videos automatisch auf dem Pi und lädst sie nur noch in der App hoch – ohne TikTok-API und OAuth.
 

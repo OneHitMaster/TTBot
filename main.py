@@ -65,7 +65,7 @@ def main():
             run_auth()
         return
 
-    # Idee holen (aus Trends und/oder ideas.json, siehe IDEA_SOURCE in .env)
+    # Idee holen: Standard = nur aktuelle Google-Trends (kein ideas.json nötig)
     collector = IdeaCollector(
         ideas_path=config.IDEAS_FILE,
         source=config.IDEA_SOURCE,
@@ -75,7 +75,10 @@ def main():
     )
     idea = collector.get_next_idea()
     if not idea:
-        print("Keine Ideen mehr (Trends leer oder abgelaufen, ideas.json leer?). Bitte IDEA_SOURCE prüfen oder ideas.json befüllen.")
+        if config.IDEA_SOURCE == "trends":
+            print("Keine Trends geladen. TRENDS_COUNTRY prüfen (z. B. germany) oder in ein paar Minuten erneut versuchen. Der Bot nutzt nur aktuelle Suchtrends – keine ideas.json nötig.")
+        else:
+            print("Keine Ideen (Trends leer oder ideas.json leer?). IDEA_SOURCE in .env prüfen.")
         return
 
     print(f"Idee: {idea.title}")

@@ -7,9 +7,10 @@
   },
   {
     "id": "2",
-    "title": "Schnelles Rezept: Avocado-Toast",
-    "text": "Brot toasten, Avocado zerdrücken, Salz und Zitrone dazu. Auf das Brot streichen und mit Tomate und Ei servieren. Fertig in 5 Minuten!",
-    "hashtags": ["#rezept", "#avocado", "#frühstück"]
+    "title": "Fakten über das Gehirn, die kaum einer kennt",
+    "topic": "Gehirn",
+    "text": "Dein Gehirn verbraucht etwa 20 Prozent der Körperenergie. Es kann sich ein Leben lang umbauen. Schlafmangel schadet dem Gedächtnis nachhaltig. Diese Fakten zeigen, warum Gehirnpflege wichtig ist.",
+    "hashtags": ["#gehirn", "#fakten", "#wissen"]
   },
   {
     "id": "3",
@@ -37,9 +38,10 @@
   },
   {
     "id": "7",
-    "title": "Schneller Nudelsalat für den Sommer",
-    "text": "Nudeln kochen, abkühlen lassen. Tomaten, Gurke, Feta und Oliven dazu. Mit Olivenöl, Salz, Pfeffer und Kräutern mischen. Fertig – perfekt für Picknick oder Party.",
-    "hashtags": ["#rezept", "#nudelsalat", "#sommer"]
+    "title": "5 Fakten über den Schlaf, die dich überraschen",
+    "topic": "Schlaf",
+    "text": "Im Schlaf räumt dein Gehirn auf. Zu wenig Schlaf macht dich anfälliger für Erkältungen. Die meisten träumen in Farbe. Vor dem Smartphone-Zeitalter schliefen Menschen oft in zwei Phasen. Schlaf ist keine verschwendete Zeit.",
+    "hashtags": ["#schlaf", "#fakten", "#wissen"]
   },
   {
     "id": "8",
@@ -61,9 +63,10 @@
   },
   {
     "id": "11",
-    "title": "Einfaches Omelett in 5 Minuten",
-    "text": "Eier verquirlen, Salz und Pfeffer. Pfanne mit etwas Öl erhitzen. Ei rein, bei mittlerer Hitze stocken lassen. Nach Belieben Käse oder Kräuter einrollen. Fertig.",
-    "hashtags": ["#rezept", "#omelett", "#frühstück"]
+    "title": "Was du über Träume noch nicht wusstest",
+    "topic": "Träume",
+    "text": "Alle Menschen träumen, auch wenn sie sich nicht erinnern. Träume helfen beim Verarbeiten von Erlebnissen. In Träumen siehst du nur Gesichter, die du schon einmal gesehen hast. Schlafparalyse ist harmlos, aber beängstigend. Fakten statt Mythen.",
+    "hashtags": ["#träume", "#schlaf", "#fakten"]
   },
   {
     "id": "12",
@@ -79,9 +82,10 @@
   },
   {
     "id": "14",
-    "title": "Smoothie-Bowl zum Frühstück",
-    "text": "Gefrorene Beeren, Banane und etwas Milch oder Joghurt mixen. In eine Schüssel füllen. Mit Müsli, Nüssen, Kokosflocken und Obst dekorieren. Sieht gut aus und schmeckt super.",
-    "hashtags": ["#smoothiebowl", "#frühstück", "#gesund"]
+    "title": "Überraschende Fakten über die Psyche",
+    "topic": "Psychologie",
+    "text": "Dein Gehirn trifft Entscheidungen, bevor du es bewusst merkst. Einsamkeit aktiviert dieselben Areale wie körperlicher Schmerz. Dankbarkeit trainiert das Gehirn positiv. Diese Fakten zeigen, wie mächtig die Psyche ist.",
+    "hashtags": ["#psychologie", "#fakten", "#wissen"]
   },
   {
     "id": "15",
@@ -97,9 +101,10 @@
   },
   {
     "id": "17",
-    "title": "Schneller Tomatensalat",
-    "text": "Tomaten in Scheiben oder Stücke schneiden. Zwiebel fein hacken. Mit Olivenöl, Salz, Pfeffer und frischem Basilikum mischen. Optional etwas Mozzarella. Schmeckt zu allem.",
-    "hashtags": ["#rezept", "#salat", "#tomate"]
+    "title": "Fakten über Geld, die die wenigsten kennen",
+    "topic": "Geld",
+    "text": "Geld allein macht nicht glücklich, aber Sicherheit schon. Die meisten Millionäre erben nicht, sie sparen konsequent. Kleine Ausgaben summieren sich oft mehr als die großen. Über Geld zu sprechen enttabuisiert und hilft.",
+    "hashtags": ["#geld", "#fakten", "#finanzen"]
   },
   {
     "id": "18",
@@ -121,9 +126,10 @@
   },
   {
     "id": "21",
-    "title": "Einfache Gemüsepfanne",
-    "text": "Zwiebel und Knoblauch anbraten. Paprika, Zucchini und Tomate in Stücke schneiden und dazu. Mit Gewürzen abschmecken. Optional Reis oder Nudeln dazu. Schnell und sättigend.",
-    "hashtags": ["#rezept", "#gemüse", "#pfanne"]
+    "title": "5 Fakten über Zeit, die kaum einer kennt",
+    "topic": "Zeit",
+    "text": "Zeitwahrnehmung verändert sich mit dem Alter. Unter Stress rast die Zeit. Flow-Zustände lassen Zeit verschwinden. Dein Körper hat innere Uhren in jeder Zelle. Zeit ist die einzige Ressource, die du nicht nachkaufen kannst.",
+    "hashtags": ["#zeit", "#fakten", "#wissen"]
   },
   {
     "id": "22",
@@ -139,9 +145,10 @@
   },
   {
     "id": "24",
-    "title": "Haferflocken-Frühstück in 3 Minuten",
-    "text": "Haferflocken mit kochender Milch oder Wasser übergießen. Zwei Minuten ziehen lassen. Mit Obst, Nüssen, Honig oder Zimt toppen. Satt und gesund in wenigen Minuten.",
-    "hashtags": ["#haferflocken", "#frühstück", "#rezept"]
+    "title": "Was du über Gewohnheiten noch nicht wusstest",
+    "topic": "Gewohnheiten",
+    "text": "Gewohnheiten laufen in etwa 66 Tagen. Die Umgebung entscheidet mehr als Willenskraft. Kleine Auslöser können große Routinen starten. Du kannst alte Muster nicht löschen, nur überschreiben. Fakten aus der Forschung.",
+    "hashtags": ["#gewohnheiten", "#fakten", "#wissen"]
   },
   {
     "id": "25",
@@ -157,9 +164,10 @@
   },
   {
     "id": "27",
-    "title": "Schneller Hummus selbst gemacht",
-    "text": "Kichererbsen aus der Dose abtropfen. Mit Tahini, Zitrone, Knoblauch, Salz und etwas Öl pürieren. Nach Bedarf Wasser zugeben. Mit Paprikapulver und Olivenöl servieren.",
-    "hashtags": ["#hummus", "#rezept", "#dip"]
+    "title": "Fakten über Lügen und Wahrheit",
+    "topic": "Psychologie",
+    "text": "Menschen erkennen Lügen oft nicht besser als Zufall. Körperliche Signale sind unzuverlässig. Die meisten lügen im Alltag in kleinen Dingen. Ehrlichkeit senkt Stress. Die Wissenschaft zeigt: Lügen kostet kognitive Ressourcen.",
+    "hashtags": ["#psychologie", "#fakten", "#wissen"]
   },
   {
     "id": "28",
@@ -175,9 +183,10 @@
   },
   {
     "id": "30",
-    "title": "Einfacher Obstsalat",
-    "text": "Äpfel, Bananen, Orangen und Beeren in Stücke schneiden. Mit etwas Zitronensaft beträufeln, damit es nicht braun wird. Optional Joghurt oder Honig. Frisch und schnell.",
-    "hashtags": ["#obstsalat", "#rezept", "#gesund"]
+    "title": "Überraschende Fakten über das Lernen",
+    "topic": "Lernen",
+    "text": "Schlaf festigt Gelerntes. Abwechslung beim Üben hilft mehr als stumpfes Wiederholen. Fehler machen ist Teil des Lernens. Kurze Pausen verbessern die Aufnahme. Das Gehirn lernt ein Leben lang.",
+    "hashtags": ["#lernen", "#fakten", "#gehirn"]
   },
   {
     "id": "31",
@@ -199,9 +208,10 @@
   },
   {
     "id": "34",
-    "title": "Schnelle Gemüsesuppe",
-    "text": "Zwiebel und Knoblauch anbraten. Gemüsebrühe aufgießen. Kartoffeln, Möhren und was du da hast klein schneiden und mitkochen. Pürieren oder so lassen. Mit Kräutern servieren.",
-    "hashtags": ["#suppe", "#rezept", "#gemüse"]
+    "title": "5 Fakten über Stress, die dich überraschen",
+    "topic": "Stress",
+    "text": "Kurzer Stress kann leistungssteigernd wirken. Dauerstress schadet dem Gedächtnis. Bewegung baut Stresshormone ab. Soziale Kontakte puffern Stress. Dein Körper kann nicht zwischen echtem und gedachtem Stress unterscheiden.",
+    "hashtags": ["#stress", "#fakten", "#wissen"]
   },
   {
     "id": "35",
@@ -217,9 +227,10 @@
   },
   {
     "id": "37",
-    "title": "Quark mit Obst – Power-Frühstück",
-    "text": "Magerquark in eine Schüssel. Beeren, Banane oder anderes Obst dazu. Optional Honig, Nüsse oder Leinsamen. Viel Eiweiß, sättigend und schnell gemacht.",
-    "hashtags": ["#quark", "#frühstück", "#protein"]
+    "title": "Was wirklich hinter Motivation steckt – Fakten",
+    "topic": "Motivation",
+    "text": "Motivation folgt oft der Handlung, nicht umgekehrt. Kleine Starts lösen oft mehr aus als großes Warten. Belohnungen können intrinsische Motivation schwächen. Autonomie und Sinn treiben nachhaltiger als Druck.",
+    "hashtags": ["#motivation", "#fakten", "#psychologie"]
   },
   {
     "id": "38",
@@ -235,9 +246,10 @@
   },
   {
     "id": "40",
-    "title": "Einfacher Guacamole-Dip",
-    "text": "Avocados zerdrücken. Limette auspressen, Salz und etwas Chili dazu. Optional Tomate und Zwiebel fein hacken und untermischen. Mit Chips oder zu Tacos servieren.",
-    "hashtags": ["#guacamole", "#rezept", "#dip"]
+    "title": "Fakten über Entscheidungen, die kaum einer kennt",
+    "topic": "Psychologie",
+    "text": "Zu viele Optionen lähmen. Dein Unbewusstes trifft oft vor dem Bewusstsein. Müdigkeit verschlechtert Entscheidungen. Einfache Regeln reduzieren Entscheidungsmüdigkeit. Die Wissenschaft zeigt: Weniger ist oft mehr.",
+    "hashtags": ["#entscheidungen", "#fakten", "#psychologie"]
   },
   {
     "id": "41",
@@ -253,9 +265,10 @@
   },
   {
     "id": "43",
-    "title": "Schneller Tee gegen Erkältung",
-    "text": "Heißes Wasser, frischer Ingwer, Zitrone und Honig. Ingwer wirkt entzündungshemmend, Zitrone gibt Vitamin C, Honig beruhigt den Hals. Einfach und wohltuend.",
-    "hashtags": ["#tee", "#erkältung", "#gesundheit"]
+    "title": "5 Fakten über das Gedächtnis",
+    "topic": "Gehirn",
+    "text": "Erinnerungen werden beim Abrufen neu geschrieben. Emotionen verstärken Erinnerungen. Schlaf festigt das Gedächtnis. Du vergisst nicht alles – manches wird nur nicht abrufbar. Assoziationen sind der Schlüssel zum Behalten.",
+    "hashtags": ["#gedächtnis", "#gehirn", "#fakten"]
   },
   {
     "id": "44",
@@ -271,9 +284,10 @@
   },
   {
     "id": "46",
-    "title": "Einfaches Rührei mit Kräutern",
-    "text": "Eier verquirlen, Salz und Pfeffer. In die heiße Pfanne mit etwas Butter. Bei mittlerer Hitze unter Rühren stocken lassen. Frische Kräuter drüber. Fertig.",
-    "hashtags": ["#rührei", "#frühstück", "#rezept"]
+    "title": "Was du über Glück noch nicht wusstest",
+    "topic": "Psychologie",
+    "text": "Glück ist zu einem großen Teil trainierbar. Soziale Beziehungen sind der stärkste Prädiktor. Vergleiche mit anderen machen unglücklicher. Dankbarkeit und kleine Momente zählen mehr als große Events. Die Forschung ist klar.",
+    "hashtags": ["#glück", "#fakten", "#psychologie"]
   },
   {
     "id": "47",
@@ -295,9 +309,10 @@
   },
   {
     "id": "50",
-    "title": "Schneller Joghurt mit Müsli und Obst",
-    "text": "Joghurt in eine Schüssel. Müsli oder Haferflocken dazu. Frisches Obst obendrauf – Beeren, Banane, Apfel. Optional Nüsse oder Honig. Perfekt für unterwegs oder zu Hause.",
-    "hashtags": ["#joghurt", "#frühstück", "#rezept"]
+    "title": "Überraschende Fakten über den Menschen",
+    "topic": "Wissen",
+    "text": "Der Mensch ist das einzige Tier, das errötet. Wir haben mehr Bakterien als Körperzellen. Das Herz schlägt etwa drei Milliarden Mal im Leben. Diese und andere Fakten zeigen, wie erstaunlich der Mensch ist.",
+    "hashtags": ["#fakten", "#wissen", "#mensch"]
   },
   {
     "id": "51",

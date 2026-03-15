@@ -31,6 +31,12 @@ TOPIC_TO_PEXELS_QUERY = {
     "arbeit": "work office productivity",
     "bücher": "books reading",
     "träume": "dreams sky clouds",
+    "gehirn": "brain mind thinking",
+    "zeit": "time clock minimal",
+    "gedächtnis": "memory brain",
+    "wissen": "knowledge books",
+    "mensch": "human nature",
+    "entscheidungen": "decision thinking",
 }
 
 # Fallback: allgemeine, stimmungsvolle Clips

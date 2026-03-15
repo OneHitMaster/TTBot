@@ -14,8 +14,8 @@ try:
 except OSError:
     pass
 
-# Ideen-Quelle: "file" = nur ideas.json | "trends" = nur Google Trends | "trends_then_file" = zuerst Trends, dann Datei
-IDEA_SOURCE = os.getenv("IDEA_SOURCE", "trends_then_file")
+# Ideen-Quelle: "trends" = nur Google Trends (Standard, keine ideas.json) | "trends_then_file" = Trends, dann Fallback ideas.json | "file" = nur ideas.json
+IDEA_SOURCE = os.getenv("IDEA_SOURCE", "trends")
 TRENDS_COUNTRY = os.getenv("TRENDS_COUNTRY", "germany")
 TRENDS_CACHE_HOURS = int(os.getenv("TRENDS_CACHE_HOURS", "12"))
 
