@@ -21,12 +21,26 @@ TRENDS_COUNTRY_MAP = {
     "united_states": "p1",
 }
 
-# Vorlagen für den gesprochenen Text (variiert pro Video)
+# Titel-Formeln für mehr Klicks und Neugier (Likes/Follows)
+TREND_TITLE_TEMPLATES = [
+    "Was dir niemand über {topic} erzählt",
+    "Der {topic}-Fehler, den die meisten machen",
+    "Warum {topic} gerade alle falsch machen",
+    "3 Dinge, die du über {topic} wissen musst",
+    "Was wirklich hinter {topic} steckt",
+    "Warum {topic} dein Leben verändert",
+    "Der {topic}-Trick, den alle übersehen",
+    "Was Experten über {topic} nicht sagen",
+]
+
+# Gesprochener Text: Hook zuerst, dann Mehrwert, Spannung halten
 TREND_TEXT_TEMPLATES = [
-    "Das Thema {topic} ist gerade überall. Viele beschäftigen sich damit. Hier die wichtigsten Punkte dazu.",
-    "Gerade total im Trend: {topic}. Was du dazu wissen solltest – kurz zusammengefasst.",
-    "{topic} – genau danach suchen gerade viele. Hier ein kurzer Überblick.",
-    "Trending: {topic}. Dazu die wichtigsten Infos in Kürze.",
+    "Die meisten wissen nicht, was wirklich bei {topic} passiert. Hier die Punkte, die den Unterschied machen.",
+    "Bei {topic} machen fast alle denselben Fehler. So machst du es richtig – kurz und klar.",
+    "Über {topic} wird viel geredet, aber wenig gesagt. Das sind die Dinge, die wirklich zählen.",
+    "Was du über {topic} wissen musst – bevor es zu spät ist. Die wichtigsten Fakten in einer Minute.",
+    "Experten schweigen dazu. Bei {topic} gilt: Diese Punkte solltest du nicht ignorieren.",
+    "Warum {topic} gerade alle falsch verstehen – und wie du es richtig machst.",
 ]
 
 
@@ -65,17 +79,20 @@ def fetch_trending_topics(country: str = "germany", max_topics: int = 10) -> Lis
 def trends_to_ideas(
     topics: List[str],
     text_templates: Optional[List[str]] = None,
+    title_templates: Optional[List[str]] = None,
 ) -> List[Idea]:
-    """Wandelt Trend-Themen in Video-Ideen um."""
-    templates = text_templates or TREND_TEXT_TEMPLATES
+    """Wandelt Trend-Themen in Video-Ideen um – mit Hooks für mehr Likes und Follows."""
+    text_tpl = text_templates or TREND_TEXT_TEMPLATES
+    title_tpl = title_templates or TREND_TITLE_TEMPLATES
     ideas = []
     for i, topic in enumerate(topics):
         if not topic or len(topic) < 2:
             continue
-        title = f"Gerade im Trend: {topic}"
-        text = random.choice(templates).format(topic=topic)
+        title = random.choice(title_tpl).format(topic=topic)
+        text = random.choice(text_tpl).format(topic=topic)
         tag = _hashtag_safe(topic)
-        hashtags = [f"#{tag}", "#trend", "#viral", "#fyp"]
+        # Hashtags für Reichweite: fyp/fürdich, viral, Thema, Learn
+        hashtags = [f"#{tag}", "#fyp", "#fürdich", "#viral", "#learnontiktok", "#wissen"]
         ideas.append(
             Idea(
                 id=f"trend_{i}_{tag}",

@@ -298,5 +298,40 @@
     "title": "Schneller Joghurt mit Müsli und Obst",
     "text": "Joghurt in eine Schüssel. Müsli oder Haferflocken dazu. Frisches Obst obendrauf – Beeren, Banane, Apfel. Optional Nüsse oder Honig. Perfekt für unterwegs oder zu Hause.",
     "hashtags": ["#joghurt", "#frühstück", "#rezept"]
+  },
+  {
+    "id": "51",
+    "title": "Was dir niemand über Selbstdisziplin erzählt",
+    "topic": "Selbstdisziplin",
+    "text": "Es geht nicht um Willenskraft, sondern um Umgebung und Gewohnheiten. Die meisten kämpfen gegen sich – dabei reicht es, die Hürden zu senken und die Belohnung sichtbar zu machen.",
+    "hashtags": ["#selbstdisziplin", "#fyp", "#fürdich", "#mindset", "#wissen"]
+  },
+  {
+    "id": "52",
+    "title": "Der Geld-Fehler, den 90 Prozent machen",
+    "topic": "Geld",
+    "text": "Nicht das Einkommen entscheidet – sondern wofür du es ausgibst. Die meisten optimieren die falsche Seite. Kleine Ausgaben summieren sich. Hier die Punkte, die wirklich zählen.",
+    "hashtags": ["#geld", "#sparen", "#fyp", "#fürdich", "#finanzen"]
+  },
+  {
+    "id": "53",
+    "title": "Warum dein Gehirn dich sabotiert – und wie du es stoppst",
+    "topic": "Psychologie",
+    "text": "Dein Kopf will Sicherheit, nicht Veränderung. Deshalb schiebst du Dinge auf und fühlst dich blockiert. Der Trick: Mach den ersten Schritt so klein, dass Widerstand kaum möglich ist.",
+    "hashtags": ["#psychologie", "#mindset", "#fyp", "#wissen", "#motivation"]
+  },
+  {
+    "id": "54",
+    "title": "3 Dinge, die erfolgreiche Menschen vor dem Frühstück tun",
+    "topic": "Morgenroutine",
+    "text": "Nicht alle stehen um 5 Uhr auf. Aber sie vermeiden das Handy in der ersten Stunde. Sie bewegen sich kurz. Und sie erledigen eine Sache, bevor die Ablenkung kommt. So startest du mit einem Sieg.",
+    "hashtags": ["#morgenroutine", "#erfolg", "#fyp", "#tipps", "#fürdich"]
+  },
+  {
+    "id": "55",
+    "title": "Was wirklich hinter Prokrastination steckt",
+    "topic": "Prokrastination",
+    "text": "Es ist selten Faulheit. Oft Angst vor dem Ergebnis oder Überforderung. Die Lösung: Die Aufgabe in einen winzigen ersten Schritt zerlegen. Nur fünf Minuten. Dann entscheidet der Kopf oft anders.",
+    "hashtags": ["#prokrastination", "#produktivität", "#fyp", "#psychologie", "#wissen"]
   }
 ]

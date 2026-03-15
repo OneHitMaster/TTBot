@@ -30,8 +30,11 @@ VIDEO_BACKGROUND_QUERY = os.getenv("VIDEO_BACKGROUND_QUERY", "nature landscape")
 # Optional: lokaler Ordner mit MP4/Clips als Hintergrund (z. B. Pfad zu output/backgrounds)
 BACKGROUND_VIDEOS_DIR = (os.getenv("BACKGROUND_VIDEOS_DIR") or "").strip()
 
-# TTS: Edge-Stimme (z. B. de-DE-KatjaNeural, de-DE-ConradNeural)
-TTS_VOICE = os.getenv("TTS_VOICE", "de-DE-KatjaNeural")
+# TTS: Engine "edge" (kostenlos) oder "openai" (natürlicher, braucht OPENAI_API_KEY)
+TTS_ENGINE = (os.getenv("TTS_ENGINE") or "edge").strip().lower()
+# Edge-Stimme (de-DE-KatjaNeural …) oder OpenAI-Stimme (nova, alloy, echo, fable, onyx, shimmer)
+TTS_VOICE = os.getenv("TTS_VOICE", "de-DE-KatjaNeural" if TTS_ENGINE != "openai" else "nova")
+OPENAI_API_KEY = (os.getenv("OPENAI_API_KEY") or "").strip()
 
 # Video-Einstellungen (auf dem Raspberry Pi optional kleiner für schnellere Encodes)
 VIDEO_WIDTH = int(os.getenv("VIDEO_WIDTH", "1080"))

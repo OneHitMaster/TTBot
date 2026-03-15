@@ -106,7 +106,7 @@ Erstellte Videos liegen im Ordner `output/`.
 
 ## Ideen: Trends oder eigene Liste
 
-- **Automatisch (Standard):** Der Bot holt sich Ideen aus **Google Trends** (z. B. Deutschland). Nichts eintragen nötig. In `.env`: `IDEA_SOURCE=trends_then_file` oder `IDEA_SOURCE=trends`. Trends werden bis zu 12 Stunden gecacht (`TRENDS_CACHE_HOURS`, `TRENDS_COUNTRY=germany`).
+- **Automatisch (Standard):** Der Bot holt sich Ideen aus **Google Trends** (z. B. Deutschland). Die Titel nutzen Hooks wie „Was dir niemand über X erzählt“ oder „Der X-Fehler, den die meisten machen“ für mehr Klicks und Reichweite. In `.env`: `IDEA_SOURCE=trends_then_file` oder `IDEA_SOURCE=trends`. Trends werden bis zu 12 Stunden gecacht.
 - **Nur eigene Ideen:** `IDEA_SOURCE=file` setzen und `ideas.json` befüllen.
 
 **ideas.json** (optional bzw. Fallback): Jede Idee hat:
@@ -131,7 +131,7 @@ Beispiel:
 
 - **TikTok API**: Pro Access Token gelten Limits (z. B. 6 Upload-Requests pro Minute). Der Bot nutzt die Inbox-Variante; du bestätigst den Post in der TikTok-App.
 - **FFmpeg**: Unter Windows FFmpeg installieren und ins PATH legen ([ffmpeg.org](https://ffmpeg.org/)).
-- **Stimme**: In der `.env` kannst du `TTS_VOICE` setzen, z. B. `de-DE-KatjaNeural` (weiblich), `de-DE-ConradNeural` (männlich). Liste mit `edge-tts --list-voices`.
+- **Stimme**: Standard ist **Edge TTS** (kostenlos, `TTS_VOICE=de-DE-KatjaNeural` etc.). Deutlich natürlicher: **OpenAI TTS** – in `.env` `TTS_ENGINE=openai`, `OPENAI_API_KEY=sk-…` und z. B. `TTS_VOICE=nova` (Stimmen: alloy, echo, fable, onyx, nova, shimmer).
 - **Hintergrund-Videos**: Mit **PEXELS_API_KEY** (kostenlos auf pexels.com/api) sucht der Bot passende Clips (z. B. `VIDEO_BACKGROUND_QUERY=nature`). Alternativ: Ordner mit eigenen MP4-Dateien unter `BACKGROUND_VIDEOS_DIR` (z. B. `output/backgrounds`). Ohne Key/Ordner wird ein Gradient genutzt.
 
 ## Projektstruktur
