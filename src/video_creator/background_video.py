@@ -1,4 +1,4 @@
-"""Hintergrund-Videos: Pexels API (Natur, etc.) oder lokaler Ordner."""
+"""Hintergrund-Videos: Pexels API – themenbezogen oder Natur – oder lokaler Ordner."""
 import os
 import random
 import tempfile
@@ -6,7 +6,34 @@ import urllib.request
 from pathlib import Path
 from typing import List, Optional
 
-# Suchbegriffe für Abwechslung (Natur, Landschaft, entspannend)
+# Deutsche Themen → englische Pexels-Suchbegriffe (themenpassende Clips)
+TOPIC_TO_PEXELS_QUERY = {
+    "geld": "money finance success",
+    "gewohnheiten": "habits routine morning",
+    "psychologie": "psychology mind thinking",
+    "produktivität": "productivity work focus",
+    "motivation": "motivation success drive",
+    "schlaf": "sleep rest bedroom",
+    "gesundheit": "health fitness wellness",
+    "sparen": "money savings",
+    "morgen": "sunrise morning nature",
+    "stress": "relax nature calm",
+    "lernen": "study learning books",
+    "sport": "sports fitness workout",
+    "ernährung": "healthy food nutrition",
+    "selbstdisziplin": "discipline focus success",
+    "prokrastination": "work laptop focus",
+    "routine": "morning routine habits",
+    "morgenroutine": "morning routine sunrise",
+    "finanzen": "money finance",
+    "mindset": "mindset success",
+    "entspannung": "relax calm nature",
+    "arbeit": "work office productivity",
+    "bücher": "books reading",
+    "träume": "dreams sky clouds",
+}
+
+# Fallback: allgemeine, stimmungsvolle Clips
 DEFAULT_QUERIES = [
     "nature landscape",
     "forest trees",
@@ -16,7 +43,24 @@ DEFAULT_QUERIES = [
     "waterfall",
     "sky clouds",
     "beach",
+    "minimal calm",
 ]
+
+
+def _topic_to_pexels_query(topic: str) -> str:
+    """Macht aus einem deutschen Thema eine passende Pexels-Suche (englisch für bessere Treffer)."""
+    if not topic or not topic.strip():
+        return ""
+    t = topic.strip().lower()
+    # Exakter Treffer
+    if t in TOPIC_TO_PEXELS_QUERY:
+        return TOPIC_TO_PEXELS_QUERY[t]
+    # Einzelwörter prüfen (z. B. "Geld und Sparen" -> money)
+    for key, query in TOPIC_TO_PEXELS_QUERY.items():
+        if key in t or t in key:
+            return query
+    # Thema als Suchbegriff (Pexels versteht auch deutsche Begriffe, aber Englisch liefert mehr)
+    return t.replace(" ", " ")
 
 
 def _download_url(url: str, path: str) -> bool:
@@ -78,9 +122,14 @@ def _search_and_download(api_key: str, q: str, orientation: Optional[str], per_p
             return None
         tmp = tempfile.NamedTemporaryFile(suffix=".mp4", delete=False)
         tmp.close()
-        if not _download_url(download_url, tmp.name):
+        downloaded = _download_url(download_url, tmp.name)
+        if not downloaded:
+            import time
+            time.sleep(1)
+            downloaded = _download_url(download_url, tmp.name)
+        if not downloaded:
             if os.environ.get("TTBOT_DEBUG"):
-                print("[Pexels] Download der Video-URL fehlgeschlagen.")
+                print("[Pexels] Download der Video-URL fehlgeschlagen (nach 2 Versuchen).")
             try:
                 os.remove(tmp.name)
             except OSError:
@@ -106,20 +155,22 @@ def fetch_pexels_video(
     api_key: str,
     query: Optional[str] = None,
     orientation: str = "portrait",
-    per_page: int = 15,
+    per_page: int = 20,
 ) -> Optional[str]:
     """
-    Sucht ein Video bei Pexels, lädt es herunter und gibt den lokalen Dateipfad zurück.
-    Zuerst mit portrait, falls nichts: ohne Orientierung (Landschaft wird später zugeschnitten).
+    Sucht ein themenpassendes Video bei Pexels. query = Ideen-Thema (z. B. aus idea.topic).
+    Deutsche Themen werden für bessere Treffer auf englische Suchbegriffe gemappt.
     """
     if not api_key or not api_key.strip():
         return None
-    q = (query or random.choice(DEFAULT_QUERIES)).strip()
-    # Zuerst mit Portrait versuchen (wenige Treffer bei Natur)
+    raw = (query or "").strip()
+    q = _topic_to_pexels_query(raw) if raw else ""
+    if not q:
+        q = random.choice(DEFAULT_QUERIES)
+    # Zuerst mit Portrait, dann ohne Orientierung (mehr Treffer)
     path = _search_and_download(api_key, q, "portrait", per_page)
     if path:
         return path
-    # Fallback: ohne Orientierung – fast alle Naturvideos sind Querformat, wir schneiden zu
     path = _search_and_download(api_key, q, None, per_page)
     return path
 

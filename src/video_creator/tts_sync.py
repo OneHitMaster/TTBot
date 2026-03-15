@@ -18,22 +18,35 @@ OPENAI_VOICES = ["alloy", "echo", "fable", "onyx", "nova", "shimmer"]
 
 
 def clean_text_for_tts(text: str) -> str:
-    """Entfernt Zahlen und 'Erstens, Zweitens' etc., damit die Stimme sie nicht vorliest."""
+    """Bereinigt Text für natürliche Aussprache: Abkürzungen ausschreiben, Zahlen/Ordinale entfernen."""
     import re
     if not text or not text.strip():
         return text
-    # 1. 2. 3. oder 1) 2) 3)
+    # Abkürzungen ausschreiben (damit TTS natürlich klingt)
+    replacements = [
+        (r"\bz\.\s*B\.\b", "zum Beispiel"),
+        (r"\bz\. B\.\b", "zum Beispiel"),
+        (r"\bbzw\.\b", "beziehungsweise"),
+        (r"\betc\.\b", "und so weiter"),
+        (r"\bevtl\.\b", "eventuell"),
+        (r"\bu\.\s*a\.\b", "unter anderem"),
+        (r"\bu\.a\.\b", "unter anderem"),
+        (r"\bca\.\b", "circa"),
+        (r"\bggf\.\b", "gegebenenfalls"),
+        (r"\bbzw\b", "beziehungsweise"),
+    ]
+    for pattern, repl in replacements:
+        text = re.sub(pattern, repl, text, flags=re.IGNORECASE)
+    # 1. 2. 3. oder 1) 2) 3) entfernen
     text = re.sub(r"\d+[.)]\s+", "", text)
-    # Einzelne Zahl am Satzanfang (z. B. "3 Kleine" ohne Punkt) – feste Lookbehinds für re
     text = re.sub(r"^\d+\s+", "", text)
     text = re.sub(r"(?<=[.!?])\s*\d+\s+", " ", text)
-    # Erstens, Zweitens, Drittens, ... (mit optionalem Komma/Punkt)
+    # Erstens, Zweitens, ... entfernen
     text = re.sub(
         r"(?i)\b(Erstens|Zweitens|Drittens|Viertens|Fünftens|Sechstens|Siebtens|Achtens|Neuntens|Zehntens)\s*[,.]?\s*",
         "",
         text,
     )
-    # Mehrfache Leerzeichen und Leerzeichen um Satzzeichen
     text = re.sub(r"  +", " ", text)
     text = re.sub(r"\s+([.,!?])", r"\1", text)
     return text.strip()

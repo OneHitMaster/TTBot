@@ -1,11 +1,19 @@
-"""Erstellt TikTok-Videos: gute KI-Stimme (Edge TTS), synchroner Lauftext, Video- oder Gradient-Hintergrund."""
+"""Erstellt TikTok-Videos: TTS (Edge/OpenAI), synchroner Lauftext, Hintergrund-Video (Pexels/lokal)."""
 import json
 import os
 import re
 import tempfile
+import warnings
 from datetime import datetime
 from pathlib import Path
 from typing import List, Optional, Tuple
+
+# MoviePy-Frame-Warnung bei Pexels-Videos unterdrücken (Recovery mit "last valid frame" ist OK)
+warnings.filterwarnings(
+    "ignore",
+    message=".*bytes wanted but.*bytes read.*",
+    category=UserWarning,
+)
 
 from PIL import Image, ImageDraw, ImageFont
 try:
@@ -395,7 +403,8 @@ class VideoCreator:
         dark = _make_dark_overlay(self.width, self.height, total_duration, opacity=0.42)
         layers = [bg_clip, dark]
         quelle = "Pexels" if temp_video_path else "lokal"
-        print(f"Hintergrund: Video-Clip wird verwendet ({quelle}).")
+        topic_info = f' zum Thema „{idea.topic}"' if getattr(idea, "topic", None) else ""
+        print(f"Hintergrund: Video-Clip wird verwendet ({quelle}){topic_info}.")
         print(f"  → Dieses Video öffnen: {out_name}")
 
         # Text-Frames (synced mit TTS)

@@ -9,7 +9,10 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent
 IDEAS_FILE = BASE_DIR / "ideas.json"
 OUTPUT_DIR = BASE_DIR / "output"
-OUTPUT_DIR.mkdir(exist_ok=True)
+try:
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+except OSError:
+    pass
 
 # Ideen-Quelle: "file" = nur ideas.json | "trends" = nur Google Trends | "trends_then_file" = zuerst Trends, dann Datei
 IDEA_SOURCE = os.getenv("IDEA_SOURCE", "trends_then_file")
@@ -27,8 +30,9 @@ TIKTOK_REFRESH_TOKEN = os.getenv("TIKTOK_REFRESH_TOKEN", "")
 PEXELS_API_KEY = os.getenv("PEXELS_API_KEY", "")
 # Suchbegriff für Hintergrund-Videos (z. B. "nature", "ocean", "forest")
 VIDEO_BACKGROUND_QUERY = os.getenv("VIDEO_BACKGROUND_QUERY", "nature landscape")
-# Optional: lokaler Ordner mit MP4/Clips als Hintergrund (z. B. Pfad zu output/backgrounds)
-BACKGROUND_VIDEOS_DIR = (os.getenv("BACKGROUND_VIDEOS_DIR") or "").strip()
+# Optional: lokaler Ordner mit MP4/Clips als Hintergrund (relativer Pfad = ab Projektroot)
+_bg_dir = (os.getenv("BACKGROUND_VIDEOS_DIR") or "").strip()
+BACKGROUND_VIDEOS_DIR = (Path(_bg_dir).resolve() if os.path.isabs(_bg_dir) else (BASE_DIR / _bg_dir).resolve()) if _bg_dir else None
 
 # TTS: Engine "edge" (kostenlos) oder "openai" (natürlicher, braucht OPENAI_API_KEY)
 TTS_ENGINE = (os.getenv("TTS_ENGINE") or "edge").strip().lower()

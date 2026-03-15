@@ -1,12 +1,24 @@
 # TikTok Bot
 
-Ein Bot, der **Ideen sammelt**, daraus **Videos erstellt** und sie automatisch bei **TikTok hochlädt**.
+Ein Bot, der **Ideen sammelt**, daraus **Videos erstellt** und sie optional bei **TikTok hochlädt**.
+
+## Schnellstart (nur Videos erstellen)
+
+```bash
+git clone https://github.com/…/TTBot.git && cd TTBot
+pip install -r requirements.txt
+cp .env.example .env
+# In .env: PEXELS_API_KEY eintragen (für Hintergrund-Videos)
+python main.py --only-video
+```
+
+Videos landen in `output/`. Übersicht mit Caption/Hashtags: `python serve.py` → http://localhost:8080
 
 ## Ablauf
 
-1. **Ideen** kommen automatisch aus **Google Trends** (was gerade in deinem Land trendet) – du musst nichts in `ideas.json` eintragen. Optional kannst du weiterhin eigene Ideen in `ideas.json` pflegen (werden genutzt, wenn keine Trends da sind).
-2. **Video-Erstellung**: **Edge TTS**, **synchroner Lauftext**, **Hintergrund**: optional **Stock-Videos** (z. B. Natur, Meer, Wald) von Pexels oder aus einem eigenen Ordner – darüber ein dunkler Overlay und die **Text-Karte**. Ohne Pexels/Ordner: schöner **Gradient-Hintergrund**. Vertikal 1080×1920 (TikTok).
-3. **Upload** (optional) über die TikTok Content Posting API oder manuell in der App.
+1. **Ideen**: Aus **Google Trends** (Hooks wie „Was dir niemand über X erzählt“) oder aus `ideas.json`. In `.env`: `IDEA_SOURCE=trends_then_file` (Standard) oder `file`.
+2. **Video**: **TTS** (Edge kostenlos oder OpenAI natürlicher), **synchroner Lauftext** mit Schatten/Kontur, **Hintergrund** nur per **Pexels** oder lokalem Ordner – ohne Video bricht der Bot ab. Vertikal 1080×1920 (TikTok).
+3. **Upload**: Optional per TikTok-API (OAuth) oder manuell in der App (Videos aus `output/` bzw. von der Übersichtsseite :8080).
 
 **Trend-Modus:** Standardmäßig nutzt der Bot `IDEA_SOURCE=trends_then_file`: Zuerst werden aktuelle Suchtrends (Google Trends) geholt und daraus Video-Ideen erzeugt; nur wenn keine Trends verfügbar sind, wird `ideas.json` genutzt. In der `.env` kannst du auf `IDEA_SOURCE=file` stellen, wenn du nur eigene Ideen nutzen willst.
 

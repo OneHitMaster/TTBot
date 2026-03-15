@@ -59,21 +59,34 @@ class IdeaCollector:
         return self._trend_ideas
 
     def load_ideas(self) -> List[Idea]:
-        """Lädt alle Ideen aus der JSON-Datei."""
+        """Lädt alle Ideen aus der JSON-Datei. Ungültige Einträge werden übersprungen."""
         if not self.ideas_path.exists():
             return []
-        with open(self.ideas_path, encoding="utf-8") as f:
-            data = json.load(f)
-        return [
-            Idea(
-                id=item.get("id", str(i)),
-                title=item.get("title", ""),
-                text=item.get("text", ""),
-                hashtags=item.get("hashtags", []),
-                topic=item.get("topic"),
+        try:
+            with open(self.ideas_path, encoding="utf-8") as f:
+                data = json.load(f)
+        except (json.JSONDecodeError, OSError):
+            return []
+        if not isinstance(data, list):
+            return []
+        ideas = []
+        for i, item in enumerate(data):
+            if not isinstance(item, dict):
+                continue
+            title = item.get("title") or ""
+            text = item.get("text") or ""
+            if not title and not text:
+                continue
+            ideas.append(
+                Idea(
+                    id=str(item.get("id", i)),
+                    title=title,
+                    text=text,
+                    hashtags=item.get("hashtags") if isinstance(item.get("hashtags"), list) else [],
+                    topic=item.get("topic"),
+                )
             )
-            for i, item in enumerate(data)
-        ]
+        return ideas
 
     def get_next_idea(self) -> Optional[Idea]:
         """Gibt eine zufällige, noch nicht verwendete Idee zurück (Trends und/oder Datei)."""

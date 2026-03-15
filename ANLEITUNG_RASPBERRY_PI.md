@@ -305,6 +305,7 @@ TikTok schreibt diesen Ablauf für API-Uploads vor; einfacher (ohne OAuth/Redire
 ## Häufige Probleme
 
 - **Video-Erstellung dauert lange:** Auf dem Pi normal. Optional in `.env`: `VIDEO_WIDTH=720`, `VIDEO_HEIGHT=1280`.
+- **„Kein Hintergrund-Video verfügbar“:** Pexels-Key in `.env` prüfen (`PEXELS_API_KEY`) oder Ordner mit MP4-Dateien unter `BACKGROUND_VIDEOS_DIR` anlegen. Ohne gültiges Video bricht der Bot ab.
 - **FFmpeg nicht gefunden:** Nach dem Setup `which ffmpeg` prüfen. Sonst: `sudo apt-get install ffmpeg`.
 - **„Access Token invalid“** (nur bei API-Upload): Token erneuern – OAuth erneut durchführen und neue Tokens in `.env` eintragen.
 - **„Redirect URI mismatch“** (nur bei API-Upload): Die in TikTok eingetragene URL muss exakt der Aufruf-URL entsprechen.

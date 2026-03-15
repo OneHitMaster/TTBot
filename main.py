@@ -79,6 +79,7 @@ def main():
         return
 
     print(f"Idee: {idea.title}")
+    print("Video wird erstellt (TTS + Hintergrund + Text) – bitte warten …")
 
     # Video erstellen (nur mit Hintergrund-Video; sonst Abbruch)
     creator = VideoCreator(
@@ -88,7 +89,7 @@ def main():
         voice=getattr(config, "TTS_VOICE", "de-DE-KatjaNeural"),
         pexels_api_key=getattr(config, "PEXELS_API_KEY", ""),
         background_query=getattr(config, "VIDEO_BACKGROUND_QUERY", "nature landscape"),
-        background_videos_dir=config.BACKGROUND_VIDEOS_DIR or None,
+        background_videos_dir=config.BACKGROUND_VIDEOS_DIR,
     )
     try:
         video_path = creator.create(idea)

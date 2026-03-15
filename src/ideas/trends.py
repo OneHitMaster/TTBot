@@ -33,7 +33,7 @@ TREND_TITLE_TEMPLATES = [
     "Was Experten über {topic} nicht sagen",
 ]
 
-# Gesprochener Text: Hook zuerst, dann Mehrwert, Spannung halten
+# Gesprochener Text: natürlich, mit Hook und Mehrwert (bessere Aussprache, flüssige Sätze)
 TREND_TEXT_TEMPLATES = [
     "Die meisten wissen nicht, was wirklich bei {topic} passiert. Hier die Punkte, die den Unterschied machen.",
     "Bei {topic} machen fast alle denselben Fehler. So machst du es richtig – kurz und klar.",
@@ -41,6 +41,8 @@ TREND_TEXT_TEMPLATES = [
     "Was du über {topic} wissen musst – bevor es zu spät ist. Die wichtigsten Fakten in einer Minute.",
     "Experten schweigen dazu. Bei {topic} gilt: Diese Punkte solltest du nicht ignorieren.",
     "Warum {topic} gerade alle falsch verstehen – und wie du es richtig machst.",
+    "Kurz und knackig: Das solltest du zu {topic} wissen. Drei Punkte, die wirklich weiterhelfen.",
+    "Bei {topic} lohnt sich ein zweiter Blick. Hier ist, was die meisten übersehen.",
 ]
 
 
